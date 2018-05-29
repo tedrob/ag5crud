@@ -29,7 +29,7 @@ coinRoutes.route('/add').post((req, res, next) => {
   console.log('ready to post name=', req.body.name, ' and  price=', req.body.price);
 
   console.log('post data', JSON.stringify(data));
-  console.log('exp', req.body.name);
+  // console.log('exp', req.body.name);
   Posts.create({
     name: req.body.name,
     price: req.body.price
