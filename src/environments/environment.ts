@@ -4,5 +4,8 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
+  'url': 'postgres://postgres:P2ssw0rd@localhost:5432/ag5ted',
+  'dialect': 'postgres',
+  'operatorsAliases': false,
   production: false
 };

@@ -5,9 +5,9 @@ exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
   },
-  complete: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
+    complete: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
   },
 });
 

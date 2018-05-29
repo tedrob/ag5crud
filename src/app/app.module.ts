@@ -10,6 +10,7 @@ import { CreateComponent } from './create/create.component';
 import { EditComponent } from './edit/edit.component';
 import { appRoutes } from './routerConfig';
 import { CoinService } from './coin.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -19,9 +20,10 @@ import { CoinService } from './coin.service';
     CreateComponent,
     EditComponent
   ],
-  imports: [
-
-  BrowserModule,
+  imports: [ //
+    BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(appRoutes),
     HttpClientModule
   ],

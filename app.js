@@ -1,22 +1,50 @@
-const express = require('express');
-const logger = require('morgan');
-const bodyParser = require('body-parser');
+'use strict';
+const express = require('express'),
+      path = require('path'),
+      bodyParser = require('body-parser'),
+      cors = require('cors'),
+      coinRoutes = require('./expressRoutes/coinRoutes');
+
+
+// ------------------
+const Sequelize = require('sequelize');
+const sequelize = new Sequelize('codeforgeek', 'postgres', 'P2ssw0rd', {
+  host: 'localhost',
+  dialect: 'postgres',
+  operatorsAliases: false,
+  pool: {
+    max: 9,
+    min: 0,
+    idle: 10000
+  }
+});
+
+//-------------------
 
 // Set up the express app
+// ================================================
 const app = express();
+const PORT = process.env.PORT || 8080;
 
-// Log request to the console.
-app.use(logger('dev'));
+const db = require('./model/index.js');
 
-// Parse incoming requests data (https://github.com/expressjs/body-parser)
+// Sets up the Express app to handle data parsing
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
+app.use(cors());
+app.use(bodyParser.urlencoded({  extended: false }));
+app.use(bodyParser.text());
 
-// Setup a default catch-all route that sends back a welcome message in JSON format.
-app.get('*', (req, res) => res.status(200).send({
-  message: 'Welcome to the beginning of nothingness.',
-}));
+// Static directory
+// app.use(express.static('public'));
+app.use('/coins', coinRoutes);
 
-module.exports = app;
+sequelize.authenticate().then(() => {
+  console.log('Success!');
+  // const Post
+});
+
+sequelize.sync().then(() => {
+  app.listen(PORT, () => {
+    console.log('connected....');
+  });
+});
