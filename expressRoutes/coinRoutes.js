@@ -1,11 +1,37 @@
 // coinRoutes.js
 
 const express = require('express');
+const { Client } = require('pg');
 const app = express();
 const coinRoutes = express.Router();
+const env = process.env.MODE_ENV || 'development';
+const config = require(`${__dirname}/../config/config.json`)[env];
 const connectionString = process.env.DATABASE_URL || 'postgres://postgres:P2ssw0rd@localhost:5432/ag5ted';
+const client = new  Client({
+  connectionString: 'postgres://postgres:P2ssw0rd@localhost:5432/ag5ted',
+  ssl: true,
+  operatorsAliases: false,
+})
+
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize(connectionString, {
+let sequelize;
+// ---
+if (config.use_env_variable) {
+  sequelize = new Sequelize(process.env[config.use_env_variable]);
+} else {
+  sequelize = new Sequelize(connectionString, {
+    dialect: 'postres',
+      operatorsAliases: false,
+      pool: {
+        max: 9,
+        min: 0,
+        idle: 10000
+      }
+  });
+  console.log('dev', connectionString);
+}
+// ---
+/* sequelize = new Sequelize(connectionString, {
                 dialect: 'postres',
                 operatorsAliases: false,
                 pool: {
@@ -13,7 +39,7 @@ const sequelize = new Sequelize(connectionString, {
                   min: 0,
                   idle:10000
                 }
-              });
+              }); */
 const PORT = process.env.PORT || 8080;
 
 // Require Item model in our routes module
@@ -35,8 +61,7 @@ coinRoutes.route('/add').post((req, res, next) => {
   const data = {text: req.body, complete: false};
   console.log('ready to post name=', req.body.name, ' and  price=', req.body.price);
 
-  console.log('post data', JSON.stringify(data));
-  // console.log('exp', req.body.name);
+  console.log('post data', JSON.stringify(data)); //
   Posts.create({
     name: req.body.name,
     price: req.body.price
