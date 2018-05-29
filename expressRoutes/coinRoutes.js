@@ -14,9 +14,16 @@ const sequelize = new Sequelize(connectionString, {
                   idle:10000
                 }
               });
+const PORT = process.env.PORT || 8080;
 
 // Require Item model in our routes module
 const coin = require('./../model/coin');
+
+// add to make sure connecting
+sequelize.authenticate().then(() => {
+  console.log('Success!');
+});
+
 const Posts = sequelize.define('Coin', {
   name: {type: Sequelize.STRING},
   price: {type: Sequelize.DECIMAL},
