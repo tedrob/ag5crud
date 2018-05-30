@@ -32,17 +32,7 @@ if (config.use_env_variable) {
       }
   });
   console.log('dev', connectionString);
-}
-// ---
-/* sequelize = new Sequelize(connectionString, {
-                dialect: 'postres',
-                operatorsAliases: false,
-                pool: {
-                  max:9,
-                  min: 0,
-                  idle:10000
-                }
-              }); */
+} //
 const PORT = process.env.PORT || 8080;
 
 // Require Item model in our routes module
@@ -69,6 +59,9 @@ coinRoutes.route('/add').post((req, res, next) => {
     name: req.body.name,
     price: req.body.price
   })
+  .catch((err) => {
+    res.status(400).send('Unable to connect to database');
+  });
 });
 /* coinRoutes.route('/add').post(function (req, res) {
   console.log('in add', req.body);
