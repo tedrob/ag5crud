@@ -18,11 +18,10 @@ let sequelize;
 console.log('env', env);
 // ---
 if (config.use_env_variable) {
-  const conf = 'postgres://ddpdvlujtbflwv:4bfec4912dbaf8969f9bd4fe6b51936f34781e2a2edd713257c12ddc9d6dcff3@ec2-54-243-235-153.compute-1.amazonaws.com:5432/dc79kjvbe6a50c';
+  let conf = `postgres://ddpdvlujtbflwv:4bfec4912dbaf8969f9bd4fe6b51936f34781e2a2edd713257c12ddc9d6dcff3@ec2-54-243-235-153.compute-1.amazonaws.com:5432/dc79kjvbe6a50`;
+  conf = `$(heroku config:get DATABASE_URL -a ag5-crud`;
   //sequelize = new Sequelize(process.env[config.use_env_variable], {
-  sequelize = new Sequelize(conf, {
-                                        operatorsAliases: false,
-                                        ssl: true});
+  sequelize = new Sequelize(conf, { operatorsAliases: false, ssl: true});
 } else {
   sequelize = new Sequelize(connectionString, {
     dialect: 'postres',
