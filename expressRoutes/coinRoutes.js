@@ -15,9 +15,12 @@ const client = new  Client({
 
 const Sequelize = require('sequelize');
 let sequelize;
+console.log('env', env);
 // ---
 if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable]);
+  sequelize = new Sequelize(process.env[config.use_env_variable], {
+                                        operatorsAliases: false,
+                                        ssl: true});
 } else {
   sequelize = new Sequelize(connectionString, {
     dialect: 'postres',
