@@ -70,7 +70,7 @@ coinRoutes.route('/add').post((req, res, next) => {
   })
   .then((item) =>{
     console.log('created');
-    res.status(200).json({
+      res.status(200).json({
       'coin': 'Coin added successfully'
     });
   })
