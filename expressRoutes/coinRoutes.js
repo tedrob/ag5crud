@@ -18,7 +18,9 @@ let sequelize;
 console.log('env', env);
 // ---
 if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], {
+  const conf = 'postgres://ddpdvlujtbflwv:4bfec4912dbaf8969f9bd4fe6b51936f34781e2a2edd713257c12ddc9d6dcff3@ec2-54-243-235-153.compute-1.amazonaws.com:5432/dc79kjvbe6a50c';
+  //sequelize = new Sequelize(process.env[config.use_env_variable], {
+  sequelize = new Sequelize(conf, {
                                         operatorsAliases: false,
                                         ssl: true});
 } else {
@@ -60,7 +62,7 @@ coinRoutes.route('/add').post((req, res, next) => {
     price: req.body.price
   })
   .catch((err) => {
-    res.status(400).send('Unable to connect to database');
+    res.status(400).send(err + 'Unable to connect to database');
   });
 });
 /* coinRoutes.route('/add').post(function (req, res) {
