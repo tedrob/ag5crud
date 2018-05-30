@@ -30,18 +30,7 @@ if (config.use_env_variable) {
 
 } else {
   conf = '${heroku config:get DATABASE_URL -a ag5-crud}';
-  console.log('conf1', config.url, ' ssl', config.ssl);
-  // connectionString = config;
-  /* sequelize = new Sequelize(config.url, {
-    dialect: 'postres',
-    ssl: config.ssl,
-      operatorsAliases: false,
-      pool: {
-        max: 9,
-        min: 0,
-        idle: 10000
-      },
-    });*/
+  console.log('conf1', config.url, ' ssl', config.ssl); //
   sequelize = new Sequelize(config.url, {dialect: 'postgres', operatorsAliases: false, ssl: true});
   console.log('conf', config.url);
   console.log('dev', connectionString);
@@ -51,7 +40,9 @@ if (config.use_env_variable) {
 const PORT = process.env.PORT || 8080;
 
 // Require Item model in our routes module
-const coin = require('./../model/coin');
+// const coin = require('./../model/coin');
+const coin = require('./../model');
+
 
 // add to make sure connecting
 sequelize.authenticate().then(() => {
@@ -77,9 +68,15 @@ coinRoutes.route('/add').post((req, res, next) => {
     name: req.body.name,
     price: req.body.price
   })
+  .then((item) =>{
+    console.log('created');
+    res.status(200).json({
+      'coin': 'Coin added successfully'
+    });
+  })
   .catch((err) => {
     res.status(400).send(err + 'Unable to connect to database');
-  });
+  })
 });
 /* coinRoutes.route('/add').post(function (req, res) {
   console.log('in add', req.body);

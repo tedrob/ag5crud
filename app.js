@@ -26,7 +26,9 @@ const sequelize = new Sequelize('codeforgeek', 'postgres', 'P2ssw0rd', {
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-const db = require('./model/index.js');
+// const db = require('./model/index.js');
+const db = require('./model/coin');
+
 
 // Sets up the Express app to handle data parsing
 app.use(bodyParser.json());
@@ -41,13 +43,7 @@ app.use('/coins', coinRoutes);
 sequelize.authenticate().then(() => {
   console.log('Success!');
   // const Post
-});
-
-sequelize.sync().then(() => {
-  app.listen(PORT, () => {
-    console.log('connected....');
-  });
-});
+}); //
 
 app.use(express.static(path.join(__dirname, 'dist')));
 
@@ -55,6 +51,11 @@ app.get('*', (req, res) => {
   res.sendfile(path.join(__dirname, 'dist/index.html'));
 });
 
+sequelize.sync().then(() => {
+  app.listen(PORT, () => {
+    console.log('connected....');
+  });
+}); //
 
 // Start the app by listening on the default Heroku port
 // app.listen(process.env.PORT || 8080);

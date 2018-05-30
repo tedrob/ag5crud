@@ -10,7 +10,7 @@ export class CoinService {
   constructor(private http: HttpClient) { }
 
   addCoin(name, price) {
-    console.log('addCoin', name);
+    console.log('addCoin service', name);
     const uri = 'http://localhost:8080/coins/add';
     const obj = {
       name: name,
