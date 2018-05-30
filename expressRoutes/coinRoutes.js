@@ -7,7 +7,7 @@ const coinRoutes = express.Router();
 const env = process.env.MODE_ENV || 'development';
 const config = require(`${__dirname}/../config/config.json`)[env];
 const connectionString = process.env.DATABASE_URL || 'postgres://postgres:P2ssw0rd@localhost:5432/ag5ted';
-const client = new  Client({
+let client = new  Client({
   connectionString: 'postgres://postgres:P2ssw0rd@localhost:5432/ag5ted',
   ssl: true,
   operatorsAliases: false,
@@ -16,23 +16,37 @@ const client = new  Client({
 const Sequelize = require('sequelize');
 let sequelize;
 console.log('env', env);
+console.log('env2',config.url);
+
 // ---
 if (config.use_env_variable) {
   let conf = `postgres://ddpdvlujtbflwv:4bfec4912dbaf8969f9bd4fe6b51936f34781e2a2edd713257c12ddc9d6dcff3@ec2-54-243-235-153.compute-1.amazonaws.com:5432/dc79kjvbe6a50`;
-  conf = `$(heroku config:get DATABASE_URL -a ag5-crud`;
-  //sequelize = new Sequelize(process.env[config.use_env_variable], {
-  sequelize = new Sequelize(conf, { operatorsAliases: false, ssl: true});
+  conf = 'heroku config:get DATABASE_URL -a ag5-crud';
+  sequelize = new Sequelize(config.url, {
+    dialect: 'postgres',
+    operatorsAliases: false,
+    ssl: true
+  });
+
 } else {
-  sequelize = new Sequelize(connectionString, {
+  conf = '${heroku config:get DATABASE_URL -a ag5-crud}';
+  console.log('conf1', config.url, ' ssl', config.ssl);
+  // connectionString = config;
+  /* sequelize = new Sequelize(config.url, {
     dialect: 'postres',
+    ssl: config.ssl,
       operatorsAliases: false,
       pool: {
         max: 9,
         min: 0,
         idle: 10000
-      }
-  });
+      },
+    });*/
+  sequelize = new Sequelize(config.url, {dialect: 'postgres', operatorsAliases: false, ssl: true});
+  console.log('conf', config.url);
   console.log('dev', connectionString);
+  // console.log('seq', sequelize);
+
 } //
 const PORT = process.env.PORT || 8080;
 
@@ -43,6 +57,9 @@ const coin = require('./../model/coin');
 sequelize.authenticate().then(() => {
   console.log('Success!');
 });
+sequelize.operatorsAliases = false;
+sequelize.ssl = true;
+console.log('seq', sequelize.ssl);
 
 const Posts = sequelize.define('Coin', {
   name: {type: Sequelize.STRING},
