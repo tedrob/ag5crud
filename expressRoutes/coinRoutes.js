@@ -3,7 +3,7 @@
 const express = require('express'); //
 const app = express();
 const coinRoutes = express.Router();
-const env = process.env.NODE_ENV || 'development';
+const env = process.env.NODE_ENV || 'production';
 
 console.log('appGet', app.get('env'));
 
