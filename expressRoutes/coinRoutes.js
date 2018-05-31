@@ -3,23 +3,15 @@
 const express = require('express'); //
 const app = express();
 const coinRoutes = express.Router();
-const env = process.env.NODE_ENV || 'production';
+const env = process.env.NODE_ENV || 'development';
+
 const config = require(`${__dirname}/../config/config.json`)[env];
 // const connectionString = process.env.DATABASE_URL || 'postgres://postgres:P2ssw0rd@localhost:5432/ag5ted';
 
 const Sequelize = require('sequelize');
 let sequelize; //
 // ---
-console.log('routes', process.env.NODE_ENV);
-
-/* const { Client } = require('pg');
-const client = new Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: true,
-});
-
-client.connect();
-console.log('client',client.DATABASE_URL); */
+console.log('routes', process.env.ENV);//
 
 console.log('Non-env',env);
 
