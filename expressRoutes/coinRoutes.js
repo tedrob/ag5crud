@@ -14,7 +14,7 @@ let sequelize; //
 console.log('routes', process.env.NODE_ENV);//
 
 console.log('Non-env',env);
-
+console.log('process', process.env.NODE_ENV, 'config', config);
 // if (process.env.NODE_ENV) { // production
 if (env === 'production') {
   console.log('routes-prod', config.url);
