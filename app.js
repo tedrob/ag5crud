@@ -74,7 +74,7 @@ app.use((err, req, res, next) => {
   // const Post
 }); // */
 
-// app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'dist')));
 
 /* app.get('*', (req, res) => {
   res.sendfile(path.join(__dirname, 'dist/index.html'));
