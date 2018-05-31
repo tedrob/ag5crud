@@ -11,13 +11,13 @@ const config = require(`${__dirname}/../config/config.json`)[env];
 const Sequelize = require('sequelize');
 let sequelize; //
 // ---
-console.log('routes', process.env.ENV);//
+console.log('routes', process.env.NODE_ENV);//
 
 console.log('Non-env',env);
 
 // if (process.env.NODE_ENV) { // production
 if (env === 'production') {
-  console.log('routes-prod');
+  console.log('routes-prod', config.url);
   sequelize = new Sequelize(config.url, {
     dialect: 'postgres',
     'ssl': true,
@@ -48,9 +48,9 @@ const PORT = process.env.PORT || 8080;
 sequelize.authenticate().then(() => {
   console.log('Success!');
 });
-sequelize.operatorsAliases = false;
+/* sequelize.operatorsAliases = false;
 sequelize.ssl = true;
-console.log('seq', sequelize.ssl);
+console.log('seq', sequelize.ssl); */
 
 const Posts = sequelize.define('Coin', {
   name: {type: Sequelize.STRING},
@@ -94,6 +94,9 @@ coinRoutes.route('/add').post((req, res, next) => {
 }); */
 
 // Defined get data(index or listing) route
+
+///////////////////////////////////
+/*
 coinRoutes.route('/').get(function (req, res) {
   Coin.find(function (err, coins) {
     if (err) {
@@ -140,7 +143,8 @@ coinRoutes.route('/delete/:id').get(function (req, res) {
     else res.json('Successfully removed');
   });
 });
-
+ */
+/////////////////////////////////////////////////////////
 module.exports = coinRoutes;
 // exports = coinRoutes; this creates an error so don't use
 
