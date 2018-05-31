@@ -21,6 +21,8 @@ const client = new Client({
 client.connect();
 console.log('client',client.DATABASE_URL);
 
+console.log('Non-env', NODE_ENV);
+
 if (process.env.NODE_ENV) { // production
   console.log('routes-prod');
   sequelize = new Sequelize(config.url, {
