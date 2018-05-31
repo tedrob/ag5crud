@@ -80,14 +80,14 @@ app.get('*', (req, res) => {
   res.sendfile(path.join(__dirname, 'dist/index.html'));
 });
 
-/*sequelize.sync().then(() => {
+sequelize.sync().then(() => {
   app.listen(PORT, () => {
     console.log('connected....');
   });
-}); // */
-app.listen(PORT, () => {
+}); //
+/* app.listen(PORT, () => {
   console.log('connected..2.');
-});
+}); */
 
 // Start the app by listening on the default Heroku port
 // app.listen(process.env.PORT || 8080);
