@@ -3,7 +3,7 @@
 const express = require('express'); //
 const app = express();
 const coinRoutes = express.Router();
-const env = process.env.NODE_ENV || 'development';
+const env = process.env.NODE_ENV || 'production';
 
 const config = require(`${__dirname}/../config/config.json`)[env];
 // const connectionString = process.env.DATABASE_URL || 'postgres://postgres:P2ssw0rd@localhost:5432/ag5ted';
