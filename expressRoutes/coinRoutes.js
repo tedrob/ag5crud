@@ -24,7 +24,7 @@ console.log('client',client.DATABASE_URL); */
 console.log('Non-env',env);
 
 // if (process.env.NODE_ENV) { // production
-if (env === 'production')
+if (env === 'production') {
   console.log('routes-prod');
   sequelize = new Sequelize(config.url, {
     dialect: 'postgres',
