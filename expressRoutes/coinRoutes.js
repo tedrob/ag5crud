@@ -12,18 +12,19 @@ let sequelize; //
 // ---
 console.log('routes', process.env.NODE_ENV);
 
-const { Client } = require('pg');
+/* const { Client } = require('pg');
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
   ssl: true,
 });
 
 client.connect();
-console.log('client',client.DATABASE_URL);
+console.log('client',client.DATABASE_URL); */
 
 console.log('Non-env',env);
 
-if (process.env.NODE_ENV) { // production
+// if (process.env.NODE_ENV) { // production
+if (env === 'production')
   console.log('routes-prod');
   sequelize = new Sequelize(config.url, {
     dialect: 'postgres',
