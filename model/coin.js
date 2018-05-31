@@ -7,9 +7,7 @@ const sequelize = new Sequelize(config.url, {
   dialect: 'postgres',
 });
 
-
-module.exports = (sequelize, DataTypes) => {
-// const Coin = (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => { //
   const Coin = sequelize.define('Coin', {
     name: {
       type: Datatypes.STRING,
@@ -21,6 +19,4 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
     return Coin;
-};
-
-// module.exports = Coin;
+}; //

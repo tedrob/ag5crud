@@ -2,41 +2,49 @@
 
 const fs = require('fs');
 const path = require('path');
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize(process.env.POSRGRESQL_LOCAL_DB, '', '', {
-  host: process.env.POSTGRESQL_LOCAL_HOST,
-  dialect: 'postgres',
-  dialectOptions: {
-    ssl:true
-  },
-  define: { timestamps: false},
-  freezeTableName: true,
-  pool: {
-    max: 9,
-    min: 0,
-    idle: 10000
-  },
-  operatorsAliases: false,
-});
-
-const basename = path.basename(module.filename);
-
 const env = process.env.NODE_ENV || 'development';
-// const config = require('../config/config.json')[env];// `${__dirname}./../config/config`)[env]
-const config = require(path.join(__dirname, '..', 'config', 'config.json'))[env];
-// import config from './../config';
+const config = require(`${__dirname}/../config/config.json`)[env];
+const Sequelize = require('sequelize');
+let sequelize;
+console.log('index', process.env.NODE_ENV);
 
-const db = {};
-/* let sequelize;
-if(config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable]);
+if (process.env.NODE_ENV) {
+  console.log('index-prod');
+  sequelize = new Sequelize(config.url, {
+    dialect: 'postgres',
+    'ssl': false,
+    dialectOptions: {
+      ssl: true
+    },
+    operatorsAliases: false,
+  });
 } else {
-  sequelize = new Sequelize(config.url);
-} */
+  console.log('index-dev');
+  sequelize = new Sequelize(config.url, {
+    dialect: 'postgres',
+    'ssl': false,
+    dialectOptions: {
+      ssl: false,
+    },
+    operatorsAliases: false,
+  });
+}
+
+sequelize
+  .authenticate()
+  .then((err) => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch((err) => {
+    console.log('Unable to connect to the database', err.info)
+  });
+
+const basename = path.basename(module.filename); //
+
+const db = {}; //
 
 fs
-  .readdirSync(__dirname)
-  // .readdirSync('./model/')
+  .readdirSync(__dirname) //
   .filter((file) => {
     return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
   })
@@ -54,4 +62,5 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-exports = db;
+module.exports = db;
+

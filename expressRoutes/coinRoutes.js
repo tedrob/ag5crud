@@ -1,47 +1,43 @@
 // coinRoutes.js
 
-const express = require('express');
-const { Client } = require('pg');
+const express = require('express'); //
 const app = express();
 const coinRoutes = express.Router();
-const env = process.env.MODE_ENV || 'development';
+const env = process.env.NODE_ENV || 'development';
 const config = require(`${__dirname}/../config/config.json`)[env];
-const connectionString = process.env.DATABASE_URL || 'postgres://postgres:P2ssw0rd@localhost:5432/ag5ted';
-let client = new  Client({
-  connectionString: 'postgres://postgres:P2ssw0rd@localhost:5432/ag5ted',
-  ssl: true,
-  operatorsAliases: false,
-})
+// const connectionString = process.env.DATABASE_URL || 'postgres://postgres:P2ssw0rd@localhost:5432/ag5ted';
 
 const Sequelize = require('sequelize');
-let sequelize;
-console.log('env', env);
-console.log('env2',config.url);
-
+let sequelize; //
 // ---
-if (config.use_env_variable) {
-  let conf = `postgres://ddpdvlujtbflwv:4bfec4912dbaf8969f9bd4fe6b51936f34781e2a2edd713257c12ddc9d6dcff3@ec2-54-243-235-153.compute-1.amazonaws.com:5432/dc79kjvbe6a50`;
-  conf = 'heroku config:get DATABASE_URL -a ag5-crud';
+console.log('routes', process.env.NODE_ENV);
+
+if (process.env.NODE_ENV) { // production
+  console.log('routes-prod');
   sequelize = new Sequelize(config.url, {
     dialect: 'postgres',
-    operatorsAliases: false,
-    ssl: true
-  });
-
+    'ssl': true,
+    dialectOptions: {
+        ssl: true
+    },
+    operatorsAliases: false, //
+  }); //
 } else {
-  conf = '${heroku config:get DATABASE_URL -a ag5-crud}';
-  console.log('conf1', config.url, ' ssl', config.ssl); //
-  sequelize = new Sequelize(config.url, {dialect: 'postgres', operatorsAliases: false, ssl: true});
-  console.log('conf', config.url);
-  console.log('dev', connectionString);
-  // console.log('seq', sequelize);
-
+  console.log('routes-dev',config.url );
+  sequelize = new Sequelize(config.url, {
+    dialect: 'postgres',
+    'ssl': false,
+    dialectOptions:{
+      ssl: false
+    },
+    operatorsAliases: false,
+  }); //
 } //
 const PORT = process.env.PORT || 8080;
 
 // Require Item model in our routes module
 // const coin = require('./../model/coin');
-const coin = require('./../model');
+// const coin = require('./../model');
 
 
 // add to make sure connecting
