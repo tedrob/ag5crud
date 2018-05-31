@@ -40,13 +40,7 @@ app.use(bodyParser.text());
 // app.use(express.static('public'));
 app.use('/coins', coinRoutes);
 
-// catch 404 and forward to error handler
-/* app.use((req, res, next) => {
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
- */
+
 // development error handler
 if (app.get('env') === 'development') {
   console.log('hooAhh in dev')
