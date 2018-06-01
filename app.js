@@ -54,6 +54,15 @@ if (app.get('env') === 'development') {
   });
 }
 
+if ('production' === app.get('env')) {
+  app.use(express.static(path.join(__dirname, '/dist')));
+  path.join(__dirname, '/dist/index.html');
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist/index.html'));
+  });
+  console.log('app -production');
+}
+
 // production error handler
 app.use((err, req, res, next) => {
   res.status(err.status || 500);
@@ -66,15 +75,15 @@ app.use((err, req, res, next) => {
 /* sequelize.authenticate().then(() => {
   console.log('Success!');
   // const Post
-}); // */
+}); */ //
 
-app.use(express.static(path.join(__dirname, 'dist')));
+// app.use(express.static(path.join(__dirname, 'dist')));
 
-path.join(__dirname,'/dist/index.html');
+// path.join(__dirname,'/dist/index.html');
 
-app.get('*', (req, res) => {
-  res.sendfile(path.join(__dirname, 'dist/index.html'));
-});
+/* app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist/index.html'));
+}); */
 
 /* sequelize.sync().then(() => {
   app.listen(PORT, () => {
