@@ -1,9 +1,36 @@
 // coinRoutes.js
+const Coin = require('./../model/coin');
+module.exports = (app)  => {
+  // api -------------------------------
+  // create coin and send back all coins after creation
+  app.post('/api/add', (req, res) => {
+    // get all coins
+
+    // create a coin
+    Coin.create({
+      name: {
+          type: req.body.name
+        },
+        price: {
+          type: req.body.priceprice
+        },
+    }, (err, coin) => {
+      if (err) {
+        res.send(err);
+      }
+    });
+
+  });
+
+  // delete a coin
+};
+
+////
 
 const express = require('express'); //
 const app = express();
 const coinRoutes = express.Router();
-const env = process.env.NODE_ENV || 'production';
+const env = process.env.NODE_ENV || 'development';
 
 // console.log('appGet', app.get('env'));
 
@@ -18,7 +45,8 @@ console.log('routes', process.env.NODE_ENV);//
 console.log('Non-env',env);
 console.log('process', process.env.NODE_ENV, 'config', config);
 // if (process.env.NODE_ENV) { // production
-if (env === 'production') {
+// if (env === 'production') {
+if (config.use_env_variable) {
   console.log('routes-prod', config.url);
   sequelize = new Sequelize(config.url, {
     dialect: 'postgres',

@@ -5,11 +5,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod",
+    "build": "ng build --prod --env=prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "postinstall": "ng build --aot -prod"
+    "postinstall": "ng build --aot -prod --env=prod"
   },
   "private": true,
   "dependencies": {
@@ -37,6 +37,7 @@
     "fs-es6": "0.0.2",
     "hoek": "^5.0.3",
     "jquery": "^3.3.1",
+    "method-override": "^2.3.10",
     "morgan": "^1.9.0",
     "nodemailer": "^4.6.5",
     "path": "^0.12.7",
