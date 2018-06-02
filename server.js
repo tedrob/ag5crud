@@ -3,9 +3,11 @@ const express = require('express'),
 //const bodyParser = require('body-parser');
 //const methodOverride = require('method-override');
       app = express(),
+      path = require('path'),
       bodyParser = require('body-parser'),
       methodOverride = require('method-override'),
       cors = require('cors'),
+      favicon = require('serve-favicon'),
       config = require('./config/config.json');
 const PORT = process.env.PORT || 8080;
 
@@ -21,6 +23,7 @@ app.use(bodyParser.urlencoded({'extended':true }));
 app.use(bodyParser.json());
 app.use(cors());
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
+app.use(express.static(path.join('./src/favicon.ico')));
 app.use(methodOverride());
 // routes =================================================
 // console.log('db',app.get('env'), 'dbb', DATABASE_URL);

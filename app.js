@@ -3,6 +3,7 @@ const express = require('express'),
       path = require('path'),
       bodyParser = require('body-parser'),
       cors = require('cors'),
+      favicon = require('serve-favicon'),
       coinRoutes = require('./expressRoutes/coinRoutes');
 
 
@@ -56,6 +57,7 @@ app.use('/coins', coinRoutes);
 
 if ('production' !== app.get('env')) {
   app.use(express.static(path.join(__dirname, 'dist')));
+  app.use(express.static(path.join(__dirname, 'dist/favicon.ico')));
   path.join(__dirname, '/dist/index.html');
   app.get('*', (req, res, next) => {
     res.sendFile(path.join(__dirname, 'dist/index.html'));
