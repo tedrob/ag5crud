@@ -57,11 +57,13 @@ app.use('/coins', coinRoutes);
 } */
 
 if ('production' !== app.get('env')) {
-  app.use(express.static(path.join(__dirname, 'dist')));
-  app.use(express.static(path.join(__dirname, 'dist/favicon.ico')));
-  path.join(__dirname, '/dist/index.html');
+  const fav = favicon.ico;
+  // app.use(express.static(path.join(__dirname, 'dist')));
+  path.join(__dirname, './dist/index.html');
+  path.join(__dirname, './dist/favicon.ico');
   app.get('*', (req, res, next) => {
-    res.sendFile(path.join(__dirname, 'dist/index.html'));
+    res.sendFile(path.join(__dirname, './dist/index.html'));
+    res.sendFile(path.join(__dirname, './dist/favicon.ico'));
   });
   console.log('app -production');
   app.use(express.static(__dirname + 'dist'));
