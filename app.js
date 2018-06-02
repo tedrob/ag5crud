@@ -34,9 +34,12 @@ const db = require('./model/coin');
 // Sets up the Express app to handle data parsing
 app.use(bodyParser.json());
 app.use(cors());
-app.use(express.static(path.join('./src/favicon.ico')));
-app.use(bodyParser.urlencoded({  extended: false }));
-// app.use(bodyParser.text());
+// app.use(express.static(path.join('./src/favicon.ico')));
+app.use(bodyParser.urlencoded({  extended: true }));
+app.use(bodyParser.json({
+  type: 'application/vnd.api+json'
+}));
+app.use(bodyParser.text());
 
 // Static directory
 // app.use(express.static('public'));
@@ -63,7 +66,7 @@ if ('production' !== app.get('env')) {
   path.join(__dirname, './dist/favicon.ico');
   app.get('*', (req, res, next) => {
     res.sendFile(path.join(__dirname, './dist/index.html'));
-    res.sendFile(path.join(__dirname, './dist/favicon.ico'));
+    // res.sendFile(path.join(__dirname, './dist/favicon.ico'));
   });
   console.log('app -production');
   app.use(express.static(__dirname + 'dist'));
