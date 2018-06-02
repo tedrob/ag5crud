@@ -54,17 +54,15 @@ app.use('/coins', coinRoutes);
   });
 } */
 
-// if ('production' !== app.get('env')) {
-//  app.use(express.static(path.join(__dirname, '/dist')));
-//   path.join(__dirname, '/dist/index.html');
-//   app.get('*', (req, res, next) => {
-//     res.sendFile(path.join(__dirname, '/dist/index.html'));
-    // res.sendfile(path.join(__dirname, '/dist/favicon.ico'));
-//   });
+if ('production' !== app.get('env')) {
+  app.use(express.static(path.join(__dirname, 'dist')));
+  path.join(__dirname, '/dist/index.html');
+  app.get('*', (req, res, next) => {
+    res.sendFile(path.join(__dirname, 'dist/index.html'));
+  });
   console.log('app -production');
-  app.use(express.static(__dirname + '/dist'));
-
-// }
+  app.use(express.static(__dirname + 'dist'));
+}
 
 // production error handler
 /* app.use((err, req, res, next) => {
@@ -88,15 +86,15 @@ app.use('/coins', coinRoutes);
   res.sendFile(path.join(__dirname, 'dist/index.html'));
 }); */
 
-sequelize.sync().then(() => {
+/*sequelize.sync().then(() => {
   app.listen(PORT, '0.0.0.0', () => {
     console.log('Server started....');
   });
-}); //
-/*app.listen(PORT, () => {
+}); */ //
+app.listen(PORT, () => {
   console.log('connected..2.');
-});*/
+});
 
 // Start the app by listening on the default Heroku port
 // app.listen(process.env.PORT || 8080);
-module.exports = app;
+// module.exports = app;
