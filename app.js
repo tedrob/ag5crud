@@ -36,7 +36,7 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static(path.join('./src/favicon.ico')));
 app.use(bodyParser.urlencoded({  extended: false }));
-app.use(bodyParser.text());
+// app.use(bodyParser.text());
 
 // Static directory
 // app.use(express.static('public'));
