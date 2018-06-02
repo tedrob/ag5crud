@@ -34,6 +34,7 @@ const db = require('./model/coin');
 // Sets up the Express app to handle data parsing
 app.use(bodyParser.json());
 app.use(cors());
+app.use(express.static(path.join('./src/favicon.ico')));
 app.use(bodyParser.urlencoded({  extended: false }));
 app.use(bodyParser.text());
 
