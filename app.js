@@ -42,7 +42,7 @@ app.use('/coins', coinRoutes);
 
 
 // development error handler
-if (app.get('env') === 'development') {
+/* if (app.get('env') === 'development') {
   console.log('hooAhh in dev')
   app.use((err, req, res, next) => {
     console.log('devlopment');
@@ -52,9 +52,9 @@ if (app.get('env') === 'development') {
       error: err
     });
   });
-}
+} */
 
-if ('production' === app.get('env')) {
+if ('production' !== app.get('env')) {
   app.use(express.static(path.join(__dirname, '/dist')));
   path.join(__dirname, '/dist/index.html');
   app.get('*', (req, res, next) => {
