@@ -59,7 +59,7 @@ if ('production' === app.get('env')) {
   path.join(__dirname, '/dist/index.html');
   app.get('*', (req, res, next) => {
     res.sendFile(path.join(__dirname, '/dist/index.html'));
-    res.sendfile(path.join(__dirname, '/dist/favicon.ico'));
+    // res.sendfile(path.join(__dirname, '/dist/favicon.ico'));
   });
   console.log('app -production');
 }

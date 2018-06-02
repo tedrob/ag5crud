@@ -30,8 +30,8 @@ module.exports = (app)  => {
 const express = require('express'); //
 const app = express();
 const coinRoutes = express.Router();
-//let env = process.env.NODE_ENV || 'development';
-let env = process.env.NODE_ENV || 'production';
+let env = process.env.NODE_ENV || 'development';
+// let env = process.env.NODE_ENV || 'production';
 console.log('get app', app.get('env'));
 env = app.get('env');
 // console.log('appGet', app.get('env'));
