@@ -6,7 +6,7 @@ const express = require('express'),
       path = require('path'),
       bodyParser = require('body-parser'),
       // methodOverride = require('method-override'),
-      // cors = require('cors'),
+      cors = require('cors'),
       // favicon = require('serve-favicon'),
       coinRoutes = require('./expressRoutes/coinRoutes'),
       favicon = require('serve-favicon'),
@@ -22,10 +22,10 @@ const express = require('express'),
 // config = require(`${__dirname}/../config/config.json`)[env];
 
 
-app.use(bodyParser.urlencoded({'extended':false }));
-app.use(favicon(path.join(__dirname, 'dist', 'favicon.ico')));
-app.use('/coins', coinRoutes);
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(bodyParser.urlencoded({'extended':false })); //
+app.use(cors());
+
+app.use('/coins', coinRoutes); //
 
 // app.use(bodyParser.json());
 // app.use(cors());
@@ -37,17 +37,24 @@ app.use(express.static(path.join(__dirname, 'dist')));
 // const config = require(`${__dirname}./config/config.json`)[env];
 console.log('db2', config.development.url_prod);
 
-if ('production' !== app.get('env')) {
+if ('production' === app.get('env')) {
   console.log('server app -production');
+  app.use(favicon(path.join(__dirname, 'dist', 'favicon.ico')));
+  app.use(express.static(path.join(__dirname, 'dist')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist/index.html'));
+  });
+}
+else {
+  console.log('server app-', app.get('env'));
+
 }
 
+
 // Setuo a default catch-all route
-app.get('*', (req, res) => {
-  /* res.status(200).send({
-    message: 'Welcome to the beginning of nothingness',
-  }); */
+/* app.get('*', (req, res) => {
    res.sendFile(path.join(__dirname, 'dist/index.html'));
-});
+}); */ //
 
 // create coins and send back all coins after creation
 /* app.listen(8080);

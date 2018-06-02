@@ -1,6 +1,6 @@
 // coinRoutes.js
 const Coin = require('./../model/coin');
-module.exports = (app)  => {
+/* module.exports = (app)  => {
   // api -------------------------------
   // create coin and send back all coins after creation
   app.post('/api/add', (req, res) => {
@@ -24,7 +24,7 @@ module.exports = (app)  => {
 
   // delete a coin
 };
-
+ */
 ////
 
 const express = require('express'); //
@@ -50,15 +50,16 @@ console.log('cc routes', DATABASE_URL,'cc', config.url); //
 
 console.log('Non-env',env);
 console.log('process', process.env.NODE_ENV, 'config', config.url_prod);
-// if (process.env.NODE_ENV) { // production
-// if (env === 'production') {
-if (config.use_env_variable) {
+
+//if (config.use_env_variable) {
+if ( app.get('env') === 'production') {
   console.log('routes-prod', config.url_prod, 'env',config.use_env_variable );
+  app.use(cors());
   sequelize = new Sequelize(config.url_prod, {
     dialect: 'postgres',
     'ssl': true,
     dialectOptions: {
-        ssl: true
+    ssl: true
     },
     operatorsAliases: false, //
   }); //
