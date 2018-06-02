@@ -65,13 +65,13 @@ if ('production' !== app.get('env')) {
 }
 
 // production error handler
-app.use((err, req, res, next) => {
+/* app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,
     error: {}
   });
-});
+}); */
 
 /* sequelize.authenticate().then(() => {
   console.log('Success!');
