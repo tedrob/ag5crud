@@ -54,14 +54,14 @@ if (app.get('env') === 'development') {
   });
 }
 
-if ('production' === app.get('env')) {
+/* if ('production' === app.get('env')) {
   app.use(express.static(path.join(__dirname, '/dist')));
   path.join(__dirname, '/dist/index.html');
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist/index.html'));
   });
   console.log('app -production');
-}
+} */
 
 // production error handler
 app.use((err, req, res, next) => {
