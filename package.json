@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "postinstall": "ng build --aot --prod"
+    "postinstall": "ng build --aot -prod"
   },
   "private": true,
   "dependencies": {
@@ -54,7 +54,6 @@
     "sequelize-sync": "^0.1.0",
     "sequelize-typescript": "^0.6.5",
     "serve-favicon": "^2.5.0",
-    "update-node": "^0.1.0",
     "uuid": "^3.2.1",
     "zone.js": "^0.8.19"
   },

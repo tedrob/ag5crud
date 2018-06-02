@@ -9,7 +9,7 @@ export class CoinService {
 
   constructor(private http: HttpClient) { }
 
-  addCoin(name, price) {
+  addCoin(name: any, price: any) {
     console.log('addCoin service', name);
     const uri = 'http://localhost:8080/coins/add';
     const obj = {
@@ -21,7 +21,7 @@ export class CoinService {
         .subscribe(res => console.log('Done'));
   }
 
-  editCoin(id) {
+  editCoin(id: any) {
     console.log('editCoin', name);
     const uri = 'http://localhost:4000/coins/edit/' + id;
     return this
@@ -32,7 +32,7 @@ export class CoinService {
       });
   }
 
-  updateCoin(name, price, id) {
+  updateCoin(name: any, price: any, id: any) {
     console.log('updateCoin', name);
     const uri = 'http://localhost:4000/coins/update/' + id;
     const obj = {
@@ -45,7 +45,7 @@ export class CoinService {
       .subscribe(res => console.log('Done'));
   }
 
-  deleteCoin(id) {
+  deleteCoin(id: any) {
     const uri = 'http://localhost:4000/coins/delete/' + id;
     return this
       .http
