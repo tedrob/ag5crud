@@ -55,10 +55,11 @@ if (app.get('env') === 'development') {
 }
 
 if ('production' === app.get('env')) {
-  app.use(express.static(path.join(__dirname, 'dist')));
-  path.join(__dirname, 'dist/index.html');
+  app.use(express.static(path.join(__dirname, '/dist')));
+  path.join(__dirname, '/dist/index.html');
   app.get('*', (req, res, next) => {
-    res.sendFile(path.join(__dirname, 'dist/index.html'));
+    res.sendFile(path.join(__dirname, '/dist/index.html'));
+    res.sendfile(path.join(__dirname, '/dist/favicon.ico'));
   });
   console.log('app -production');
 }
