@@ -7,6 +7,7 @@ const express = require('express'),
       methodOverride = require('method-override'),
       cors = require('cors'),
       config = require('./config/config.json');
+const PORT = process.env.PORT || 8080;
 
 // configuration ===========================//
 const pg = require('pg');
@@ -32,5 +33,9 @@ app.get('*', (req, res) => res.status(200).send({
 }));
 
 // create coins and send back all coins after creation
-app.listen(8080);
-console.log('App listening on port 8080');
+/* app.listen(8080);
+console.log('App listening on port 8080'); */
+app.listen(PORT, '0.0.0.0', () => {
+  console.log('App listening on port 8080');
+});
+
