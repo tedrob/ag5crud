@@ -32,7 +32,7 @@ console.log('db2', config.development.url_prod);
 
 // Setuo a default catch-all route
 app.get('*', (req, res) => res.status(200).send({
-  message: 'Welcome to the beginning of nothinggness',
+  message: 'Welcome to the beginning of nothingness',
 }));
 
 // create coins and send back all coins after creation
