@@ -9,6 +9,7 @@ const express = require('express'),
       // cors = require('cors'),
       // favicon = require('serve-favicon'),
       coinRoutes = require('./expressRoutes/coinRoutes'),
+      favicon = reuire('serve-favicon'),
       db = require('./model/coin'),
       config = require('./config/config.json');
 //const PORT = process.env.PORT || 8080;
@@ -22,6 +23,7 @@ const express = require('express'),
 
 
 app.use(bodyParser.urlencoded({'extended':false }));
+app.use(favicon(path.join(__dirname, 'dist', 'favicon.ico')));
 app.use('/coins', coinRoutes);
 app.use(express.static(path.join(__dirname, 'dist')));
 
