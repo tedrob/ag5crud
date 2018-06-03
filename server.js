@@ -25,13 +25,26 @@ const express = require('express'),
 app.use(bodyParser.urlencoded({'extended':false })); //
 app.use(cors());
 
-app.use((req, res, next) => {
+/* app.use((req, res, next) => {
   if ((req.originalUrl && req.originalUrl.split('/').pop()) === 'favicon.ico') {
     return res.sendStatus(204);
   }
   console.log('favicon');
   // return next();
-});
+}); */
+
+function ignoreFavicon(req, res, next) {
+  if (req.originalUrl == '/favicon.ico') {
+    res.status(204).json({
+      nope: true
+    });
+  } else {
+    next();
+  }
+}
+
+app.use(ignoreFavicon);
+
 
 
 app.use('/coins', coinRoutes); //
