@@ -34,20 +34,25 @@ const db = require('./model/coin');
 // Sets up the Express app to handle data parsing
 app.use(bodyParser.json());
 app.use(cors());
-app.use ((req, res, next) => {
+
+function ignoreFavicon(req, res, next) {
+  if ( req.originalUrl == '/favicon.ico' ) {
+    res.status(204).json({nope: true});
+  } else {
+    next();
+  }
+}
+
+app.use(ignoreFavicon);
+/* app.use ((req, res, next) => {
   console.log('originalURL',req.originalUrl.split('/').pop());
   console.log('originalURL ', req.originalUrl.split('/').pop());
   if ((req.originalUrl  && req.originalUrl.split('/').pop()) === 'favicon.ico') {
     return res.sendStatus(204);
-  }
-
-
-  /* if (req.originalUrl && req.originalUrl.split(" / ").pop() === 'favicon.ico') {
-    console.log('favicon');
-    return res.sendStatus(204);
-  }*/
+  } //
   return next();
-});
+}); */
+
 // app.use(express.static(path.join('./src/favicon.ico')));
 app.use(bodyParser.urlencoded({  extended: true }));
 /* app.use(bodyParser.json({
@@ -114,9 +119,16 @@ if ('production' === app.get('env')) {
     console.log('Server started....');
   });
 }); */ //
-app.listen(PORT, () => {
-  console.log('connected..2.');
+
+sequelize.sync().then(() => {
+  app.listen(PORT, () => {
+    console.log('Server started....');
+  });
 });
+
+/* app.listen(PORT, () => {
+  console.log('connected..2.');
+}); */
 
 // Start the app by listening on the default Heroku port
 // app.listen(process.env.PORT || 8080);
