@@ -1,15 +1,14 @@
 'use strict';
 const express = require('express'), //
       app = express(),
-      path = require('path'),
       bodyParser = require('body-parser'),
-      // methodOverride = require('method-override'),
+      path = require('path'),
       cors = require('cors'),
-      // favicon = require('serve-favicon'),
-      coinRoutes = require('./expressRoutes/coinRoutes'),
       favicon = require('serve-favicon'),
+      coinRoutes = require('./expressRoutes/coinRoutes'),
       db = require('./model/coin'),
       config = require('./config/config.json'),
+      PORT = process.env.PORT || 8080,
       Sequelize = require('sequelize'),
       sequelize = new Sequelize(config.development.url_prod, {
         dialect: 'postgres',
@@ -18,12 +17,7 @@ const express = require('express'), //
           ssl: 'true'
         },
         operatorsAliases: 'false', //
-      });
-      // config = require(`${__dirname}/../config/config.json`)[env];
-
-// console.log('before Port');
-const PORT = process.env.PORT || 8080;
-
+      }); //
 // configuration ===========================//
 //const pg = require('pg');
 // const conStr = process.env.enc.DATABASE_URL || 'development'
@@ -32,23 +26,14 @@ const PORT = process.env.PORT || 8080;
 // config = require(`${__dirname}/../config/config.json`)[env];
 // console.log('server', config);
 
-app.use(bodyParser.json());
+/* app.use(bodyParser.json());
 app.use(cors());
 app.use(bodyParser.urlencoded({
   extended: false
 }));
 app.use(bodyParser.text());
-app.use('/coins', coinRoutes);
-
-/* app.use((req, res, next) => {
-  if ((req.originalUrl && req.originalUrl.split('/').pop()) === 'favicon.ico') {
-    return res.sendStatus(204);
-  }
-  console.log('favicon');
-  // return next();
-}); */
-
-function ignoreFavicon(req, res, next) {
+ */
+/* function ignoreFavicon(req, res, next) {
   if (req.originalUrl == '/favicon.ico') {
     res.status(204).json({
       nope: true
@@ -58,15 +43,16 @@ function ignoreFavicon(req, res, next) {
   }
 }
 
-app.use(ignoreFavicon);
+app.use(ignoreFavicon); */
+app.use(cors());
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 
+app.use('/coins', coinRoutes);
 app.use(express.static('/public'));
 app.use(favicon(path.join(__dirname + '\/public/favicon.ico')));
 
-
-
-// app.use('/coins', coinRoutes); //
-// app.use('/coins', coinRoutes); //
 // console.log('db server',db);
 
 // app.use(bodyParser.json());
@@ -81,6 +67,7 @@ app.use(favicon(path.join(__dirname + '\/public/favicon.ico')));
 
 if ('production' === app.get('env')) {
   console.log('server -production'); //
+  app.use(express.static('/public'));
   app.use(express.static(path.join(__dirname, '/dist')));
   app.use(favicon(path.join(__dirname + '/dist/favicon.ico')));
   app.get('*', (req, res) => {
@@ -88,12 +75,12 @@ if ('production' === app.get('env')) {
   });
 }
 else {
-  app.use(express.static('/public'));
-  app.use(cors());
-  app.use(favicon(__dirname + '\\public/favicon.ico'));
+  app.use(express.static(path.join(__dirname, '/src')));
+  // app.use(cors());
+  app.use(favicon(__dirname + '/public/favicon.ico'));
   console.log('server app-', app.get('env'));
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '\dist/index.html'));
+  app.get('*', (req, res, next) => {
+    res.sendFile(path.join(__dirname, '/src/index.html'));
   });
 }
 

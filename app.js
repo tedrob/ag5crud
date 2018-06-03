@@ -89,15 +89,15 @@ if ('production' === app.get('env')) {
   app.use(express.static(path.join(__dirname, '/dist')));
   app.use(favicon(path.join(__dirname + '/dist/favicon.ico')));
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist/index.html'));
+    res.sendFile(path.join(__dirname, '/dist/index.html'));
   }); //
 } else {
-  app.use(express.static('/public'));
-  app.use(cors());
+  // app.use(express.static('/public'));
+  // app.use(cors());
   app.use(favicon(path.join(__dirname + '/public/favicon.ico')));
   console.log('app-js app ', app.get('env'));
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '/dist/index.html'));
+    res.sendFile(path.join(__dirname, '/src/index.html'));
   });
 }
 
