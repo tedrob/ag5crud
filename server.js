@@ -69,16 +69,15 @@ if ('production' === app.get('env')) {
   console.log('server -production'); //
   app.use(express.static('/public'));
   app.use(express.static(path.join(__dirname, '/dist')));
-  app.use(favicon(path.join(__dirname + '/dist/favicon.ico')));
+  app.use(favicon(path.join(__dirname + '/public/favicon.ico')));
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '/dist/index.html'));
   });
 }
 else {
-  app.use(express.static(path.join(__dirname, '/src')));
-  // app.use(cors());
-  app.use(favicon(__dirname + '/public/favicon.ico'));
   console.log('server app-', app.get('env'));
+  app.use(express.static(path.join(__dirname, '/src')));
+  app.use(favicon(path.join(__dirname + '/public/favicon.ico')));
   app.get('*', (req, res, next) => {
     res.sendFile(path.join(__dirname, '/src/index.html'));
   });
