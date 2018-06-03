@@ -86,12 +86,19 @@ app.use('/coins', coinRoutes);
 
 if ('production' === app.get('env')) {
   console.log('app -production');
-  app.use(express.static(path.join(__dirname, 'dist')));
+  app.use(express.static(path.join(__dirname, '/dist')));
+  app.use(favicon(path.join(__dirname + '/dist/favicon.ico')));
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist/index.html'));
   }); //
 } else {
+  app.use(express.static('/public'));
+  app.use(cors());
+  app.use(favicon(path.join(__dirname + '/public/favicon.ico')));
   console.log('app-js app ', app.get('env'));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '/dist/index.html'));
+  });
 }
 
 
@@ -125,6 +132,7 @@ if ('production' === app.get('env')) {
 
 sequelize.sync().then(() => {
   app.listen(PORT, () => {
+    console.log('app', app.get('env'));
     console.log('Server started....');
   });
 });
@@ -135,4 +143,4 @@ sequelize.sync().then(() => {
 
 // Start the app by listening on the default Heroku port
 // app.listen(process.env.PORT || 8080);
-// module.exports = app;
+module.exports = app;

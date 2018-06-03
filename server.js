@@ -35,7 +35,7 @@ const PORT = process.env.PORT || 8080;
 app.use(bodyParser.json());
 app.use(cors());
 app.use(bodyParser.urlencoded({
-  extended: true
+  extended: false
 }));
 app.use(bodyParser.text());
 app.use('/coins', coinRoutes);
@@ -61,7 +61,7 @@ function ignoreFavicon(req, res, next) {
 app.use(ignoreFavicon);
 
 app.use(express.static('/public'));
-app.use(favicon(path.join(__dirname + '/public/favicon.ico')));
+app.use(favicon(path.join(__dirname + '\/public/favicon.ico')));
 
 
 
@@ -77,17 +77,24 @@ app.use(favicon(path.join(__dirname + '/public/favicon.ico')));
 // routes =================================================
 // console.log('db',app.get('env'), 'dbb', DATABASE_URL);
 // const config = require(`${__dirname}./config/config.json`)[env];
-console.log('db2', config.development.url_prod);
+// console.log('db2', config.development.url_prod);
 
 if ('production' === app.get('env')) {
-  console.log('server app -production'); //
+  console.log('server -production'); //
   app.use(express.static(path.join(__dirname, '/dist')));
+  app.use(favicon(path.join(__dirname + '/dist/favicon.ico')));
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '/dist/index.html'));
   });
 }
 else {
+  app.use(express.static('/public'));
+  app.use(cors());
+  app.use(favicon(__dirname + '\\public/favicon.ico'));
   console.log('server app-', app.get('env'));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '\dist/index.html'));
+  });
 }
 
 
@@ -103,9 +110,10 @@ console.log('App listening on port 8080'); */
   console.log('App listening on port 8080');
 }); */
 
-sequelize.sync().then(() => {
+// sequelize.sync().then(() => {
   app.listen(PORT, () => {
+    console.log('server', app.get('env'));
     console.log('App listening on port 8080');
   });
-});
+// });
 module.exports = app;
