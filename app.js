@@ -92,10 +92,10 @@ if ('production' === app.get('env')) {
     res.sendFile(path.join(__dirname, '/dist/index.html'));
   }); //
 } else {
-  // app.use(express.static('/public'));
-  // app.use(cors());
+  console.log('app -development');
+  app.use(express.static(path.join(__dirname, '/dist')));
+
   app.use(favicon(path.join(__dirname + '/public/favicon.ico')));
-  console.log('app-js app ', app.get('env'));
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '/src/index.html'));
   });
@@ -130,12 +130,12 @@ if ('production' === app.get('env')) {
   });
 }); */ //
 
-sequelize.sync().then(() => {
-  app.listen(PORT, () => {
+// sequelize.sync().then(() => {
+  app.listen(process.env.PORT || 8080, () => {
     console.log('app', app.get('env'));
     console.log('Server started....');
   });
-});
+// });
 
 /* app.listen(PORT, () => {
   console.log('connected..2.');
@@ -143,4 +143,4 @@ sequelize.sync().then(() => {
 
 // Start the app by listening on the default Heroku port
 // app.listen(process.env.PORT || 8080);
-module.exports = app;
+// module.exports = app;
