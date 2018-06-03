@@ -25,6 +25,15 @@ const express = require('express'),
 app.use(bodyParser.urlencoded({'extended':false })); //
 app.use(cors());
 
+app.use((req, res, next) => {
+  if ((req.originalUrl && req.originalUrl.split('/').pop()) === 'favicon.ico') {
+    return res.sendStatus(204);
+  }
+  console.log('favicon');
+  // return next();
+});
+
+
 app.use('/coins', coinRoutes); //
 
 // app.use(bodyParser.json());
@@ -39,15 +48,14 @@ console.log('db2', config.development.url_prod);
 
 if ('production' === app.get('env')) {
   console.log('server app -production');
-  app.use(favicon(path.join(__dirname, 'dist', 'favicon.ico')));
+  // app.use(favicon(path.join(__dirname, 'dist', 'favicon.ico')));
   app.use(express.static(path.join(__dirname, 'dist')));
-  app.get('*', (req, res) => {
+  app.get('*', (req, res, next) => {
     res.sendFile(path.join(__dirname, 'dist/index.html'));
   });
 }
 else {
   console.log('server app-', app.get('env'));
-
 }
 
 

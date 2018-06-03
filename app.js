@@ -34,11 +34,25 @@ const db = require('./model/coin');
 // Sets up the Express app to handle data parsing
 app.use(bodyParser.json());
 app.use(cors());
+app.use ((req, res, next) => {
+  console.log('originalURL',req.originalUrl.split('/').pop());
+  console.log('originalURL ', req.originalUrl.split('/').pop());
+  if ((req.originalUrl  && req.originalUrl.split('/').pop()) === 'favicon.ico') {
+    return res.sendStatus(204);
+  }
+
+
+  /* if (req.originalUrl && req.originalUrl.split(" / ").pop() === 'favicon.ico') {
+    console.log('favicon');
+    return res.sendStatus(204);
+  }*/
+  return next();
+});
 // app.use(express.static(path.join('./src/favicon.ico')));
 app.use(bodyParser.urlencoded({  extended: true }));
-app.use(bodyParser.json({
+/* app.use(bodyParser.json({
   type: 'application/vnd.api+json'
-}));
+})); */
 app.use(bodyParser.text());
 
 // Static directory
@@ -59,10 +73,10 @@ app.use('/coins', coinRoutes);
   });
 } */
 
-app.use(cors());
+// app.use(cors());
 
 if ('production' === app.get('env')) {
-  app.use(favicon(path.join(__dirname,  'dist/favicon.ico')));
+  // app.use(favicon(path.join(__dirname,  'dist/favicon.ico')));
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist/index.html'));
   });
