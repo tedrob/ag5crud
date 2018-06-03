@@ -60,10 +60,9 @@ app.use('/coins', coinRoutes); //
 console.log('db2', config.development.url_prod);
 
 if ('production' === app.get('env')) {
-  console.log('server app -production');
-  // app.use(favicon(path.join(__dirname, 'dist', 'favicon.ico')));
+  console.log('server app -production'); //
   app.use(express.static(path.join(__dirname, 'dist')));
-  app.get('*', (req, res, next) => {
+  app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist/index.html'));
   });
 }
