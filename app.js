@@ -44,6 +44,10 @@ function ignoreFavicon(req, res, next) {
 }
 
 app.use(ignoreFavicon);
+
+app.use(express.static('public'));
+app.use(favicon(path.join(__dirname + '/public/favicon.ico')));
+
 /* app.use ((req, res, next) => {
   console.log('originalURL',req.originalUrl.split('/').pop());
   console.log('originalURL ', req.originalUrl.split('/').pop());
