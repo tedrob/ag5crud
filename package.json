@@ -40,6 +40,7 @@
     "method-override": "^2.3.10",
     "morgan": "^1.9.0",
     "nodemailer": "^4.6.5",
+    "overload-protection": "^1.1.0",
     "parse-server": "^2.8.1",
     "path": "^0.12.7",
     "pg": "^7.4.3",
