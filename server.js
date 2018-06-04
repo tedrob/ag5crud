@@ -1,40 +1,40 @@
 'use strict';
 const express = require('express'), //
       app = express(),
-      bodyParser = require('body-parser'),
       path = require('path'),
+      bodyParser = require('body-parser'),
       cors = require('cors'),
       favicon = require('serve-favicon'),
       coinRoutes = require('./expressRoutes/coinRoutes'),
-      db = require('./model/coin'),
+      // db = require('./model/coin'),
       config = require('./config/config.json'),
-      PORT = process.env.PORT || 8080,
+      // PORT = process.env.PORT || 8080,
       Sequelize = require('sequelize'),
       sequelize = new Sequelize(config.development.url_prod, {
         dialect: 'postgres',
-        'ssl': 'true',
-        dialectOptions: {
-          ssl: 'true'
-        },
+        'ssl': true,
         operatorsAliases: 'false', //
-      }); //
-// configuration ===========================//
-//const pg = require('pg');
-// const conStr = process.env.enc.DATABASE_URL || 'development'
-//const DATABASE_URL = `heroku config:get DATABASE_URL -a ag5-crud`;
-// const DATABASE_URL = `$(heroku config:get DATABASE_URL -a ag5-crud)`;
-// config = require(`${__dirname}/../config/config.json`)[env];
-// console.log('server', config);
+        dialectOptions: {
+          ssl: true
+        },
+        pool: {
+          max: 9,
+          min: 0,
+          idle: 10000
+        },
+      });
 
-/* app.use(bodyParser.json());
+const PORT = process.env.PORT || 8080;
+// configuration ===========================//
+// const pg = require('pg'); //
+const db = require('./model/coin');
+
+// Sets up the Express app to handle data parsing
+app.use(bodyParser.json());
 app.use(cors());
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
-app.use(bodyParser.text());
- */
-/* function ignoreFavicon(req, res, next) {
-  if (req.originalUrl == '/favicon.ico') {
+
+function ignoreFavicon(req, res, next) {
+  if (req.originalUrl === 'favicon.ico') {
     res.status(204).json({
       nope: true
     });
@@ -43,42 +43,31 @@ app.use(bodyParser.text());
   }
 }
 
-app.use(ignoreFavicon); */
-app.use(cors());
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
+app.use(ignoreFavicon);
 
-app.use('/coins', coinRoutes);
-app.use(express.static('/public'));
+app.use(express.static('public')); //
 app.use(favicon(path.join(__dirname + '\/public/favicon.ico')));
 
-// console.log('db server',db);
+app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.use(bodyParser.json());
-// app.use(cors());
-// app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
-// app.use(express.static(path.join('./src/favicon.ico')));
-// app.use(methodOverride());
-// routes =================================================
-// console.log('db',app.get('env'), 'dbb', DATABASE_URL);
-// const config = require(`${__dirname}./config/config.json`)[env];
-// console.log('db2', config.development.url_prod);
+app.use(bodyParser.text());
+
+app.use('/coins', coinRoutes);
 
 if ('production' === app.get('env')) {
-  console.log('server -production'); //
-  app.use(express.static('/public'));
+  console.log('server -production');
   app.use(express.static(path.join(__dirname, '/dist')));
-  app.use(favicon(path.join(__dirname + '/public/favicon.ico')));
+  app.use(favicon(path.join(__dirname + '\/public/favicon.ico')));
+  app.use(ignoreFavicon);
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '/dist/index.html'));
   });
 }
 else {
-  console.log('server app-', app.get('env'));
-  app.use(express.static(path.join(__dirname, '/src')));
+  console.log('server app-');
+  app.use(express.static(path.join(__dirname, '/dist')));
   app.use(favicon(path.join(__dirname + '/public/favicon.ico')));
-  app.get('*', (req, res, next) => {
+  app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '/src/index.html'));
   });
 }
@@ -97,9 +86,9 @@ console.log('App listening on port 8080'); */
 }); */
 
 // sequelize.sync().then(() => {
-  app.listen(PORT, () => {
+  app.listen(process.env.PORT || 8080, () => {
     console.log('server', app.get('env'));
-    console.log('App listening on port 8080');
+    console.log('Server listening on Port', PORT);
   });
 // });
 module.exports = app;

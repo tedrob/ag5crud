@@ -4,15 +4,19 @@ const express = require('express'),
       bodyParser = require('body-parser'),
       cors = require('cors'),
       favicon = require('serve-favicon'),
+      config = require('./config/config.json'),
       coinRoutes = require('./expressRoutes/coinRoutes');
 
 
 // ------------------
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('codeforgeek', 'postgres', 'P2ssw0rd', {
-  host: 'localhost',
+const sequelize = new Sequelize(config.production.url_prod, {
   dialect: 'postgres',
+  'ssl': true,
   operatorsAliases: false,
+  dialectOptions: {
+    ssl:true
+  },
   pool: {
     max: 9,
     min: 0,
@@ -36,7 +40,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 function ignoreFavicon(req, res, next) {
-  if ( req.originalUrl == '/favicon.ico' ) {
+  if ( req.originalUrl === 'favicon.ico' ) {
     res.status(204).json({nope: true});
   } else {
     next();
@@ -46,7 +50,7 @@ function ignoreFavicon(req, res, next) {
 app.use(ignoreFavicon);
 
 app.use(express.static('public'));
-app.use(favicon(path.join(__dirname + '/public/favicon.ico')));
+app.use(favicon(path.join(__dirname + '\/public/favicon.ico')));
 
 /* app.use ((req, res, next) => {
   console.log('originalURL',req.originalUrl.split('/').pop());
@@ -87,14 +91,14 @@ app.use('/coins', coinRoutes);
 if ('production' === app.get('env')) {
   console.log('app -production');
   app.use(express.static(path.join(__dirname, '/dist')));
-  app.use(favicon(path.join(__dirname + '/public/favicon.ico')));
+  app.use(favicon(path.join(__dirname + '\/public/favicon.ico')));
+  app.use(ignoreFavicon);
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '/dist/index.html'));
   }); //
 } else {
   console.log('app -development');
   app.use(express.static(path.join(__dirname, '/dist')));
-
   app.use(favicon(path.join(__dirname + '/public/favicon.ico')));
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '/src/index.html'));
@@ -143,4 +147,4 @@ if ('production' === app.get('env')) {
 
 // Start the app by listening on the default Heroku port
 // app.listen(process.env.PORT || 8080);
-// module.exports = app;
+module.exports = app;
