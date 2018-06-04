@@ -76,7 +76,7 @@ if ('production' === app.get('env')) {
   console.log('server server-production=',env);
   app.use(express.static(path.join(__dirname, 'dist')));
   app.use(express.static(path.join(__dirname, 'public')));
-  app.use(favicon(path.join(__dirname, 'public/favicon.ico')));
+  app.use(favicon(path.join(__dirname, '/public/favicon.ico')));
   // app.use(ignoreFavicon);
   app.get('/*', (req, res, next) => {
     res.sendFile(path.join(__dirname, 'dist/index.html'));
@@ -88,8 +88,8 @@ else {
   console.log('server server-development=',env);
   app.use(express.static(path.join(__dirname, 'dist')));
   app.use(express.static(path.join(__dirname, 'public')));
-  app.use(favicon(path.join(__dirname, 'public/favicon.ico')));
-  app.use(favicon(path.join(__dirname, 'dist/favicon.ico')));
+  app.use(favicon(path.join(__dirname, './public/favicon.ico')));
+  app.use(favicon(path.join(__dirname, '/dist/favicon.ico')));
   // app.use(ignoreFavicon);
   app.get('/*', (req, res, next) => {
     res.sendFile(path.join(__dirname, 'dist/index.html'));
