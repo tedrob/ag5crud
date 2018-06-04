@@ -1,8 +1,9 @@
 'use strict';
 const express = require('express'),
-      path = require('path'),
-      bodyParser = require('body-parser'),
+      app = express(),
       cors = require('cors'),
+      path = require('path'), //
+      bodyParser = require('body-parser'),
       favicon = require('serve-favicon'),
       config = require('./config/config.json'),
       coinRoutes = require('./expressRoutes/coinRoutes');
@@ -28,7 +29,7 @@ const sequelize = new Sequelize(config.production.url_prod, {
 
 // Set up the express app
 // ================================================
-const app = express();
+// const app = express();
 const PORT = process.env.PORT || 8080;
 
 // const db = require('./model/index.js');
@@ -36,21 +37,25 @@ const db = require('./model/coin');
 
 
 // Sets up the Express app to handle data parsing
-app.use(bodyParser.json());
+
 app.use(cors());
+app.options('*', cors());
+app.use(bodyParser.json());
+
 
 function ignoreFavicon(req, res, next) {
-  if ( req.originalUrl === 'favicon.ico' ) {
+  if ( req.originalUrl === '/public/favicon.ico' ) {
     res.status(204).json({nope: true});
+    next;
   } else {
     next();
   }
-}
+};
 
 app.use(ignoreFavicon);
 
 app.use(express.static('public'));
-app.use(favicon(path.join(__dirname + '\/public/favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public/favicon.ico')));
 
 /* app.use ((req, res, next) => {
   console.log('originalURL',req.originalUrl.split('/').pop());
@@ -62,7 +67,7 @@ app.use(favicon(path.join(__dirname + '\/public/favicon.ico')));
 }); */
 
 // app.use(express.static(path.join('./src/favicon.ico')));
-app.use(bodyParser.urlencoded({  extended: true }));
+app.use(bodyParser.urlencoded({  extended: false }));
 /* app.use(bodyParser.json({
   type: 'application/vnd.api+json'
 })); */
@@ -70,40 +75,27 @@ app.use(bodyParser.text());
 
 // Static directory
 // app.use(express.static('public'));
-app.use('/coins', coinRoutes);
+app.use('/coins', coinRoutes); //
 
-
-// development error handler
-/* if (app.get('env') === 'development') {
-  console.log('hooAhh in dev')
-  app.use((err, req, res, next) => {
-    console.log('devlopment');
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
-} */
-
-// app.use(cors());
-
+// Setup a default catch-all route
 if ('production' === app.get('env')) {
   console.log('app -production');
   app.use(express.static(path.join(__dirname, '/dist')));
   app.use(express.static(path.join(__dirname, './public')));
-  app.use(favicon(path.join(__dirname, `/public/favicon.ico`)));
-  app.use(ignoreFavicon);
-  app.get('*', (req, res) => {
+  app.use(favicon(path.join(__dirname, `./public/favicon.ico`)));
+  // app.use(ignoreFavicon);
+  app.get('*', (req, res, next) => {
     res.sendFile(path.join(__dirname, './dist/index.html'));
+    next;
   }); //
 } else {
   console.log('app -development');
   app.use(express.static(path.join(__dirname, './src')));
   app.use(express.static(path.join(__dirname, './public')));
-  app.use(favicon(path.join(__dirname, 'public/favicon.ico')));
-  app.get('*', (req, res) => {
+  app.use(favicon(path.join(__dirname, './public/favicon.ico')));
+  app.get('*', (req, res, next) => {
     res.sendFile(path.join(__dirname, `src/index.html`));
+    next;
   });
 }
 
@@ -136,17 +128,13 @@ if ('production' === app.get('env')) {
   });
 }); */ //
 
-// sequelize.sync().then(() => {
+sequelize.sync().then(() => {
   app.listen(process.env.PORT || 8080, () => {
     console.log('app', app.get('env'));
-    console.log('Server started....');
+    console.log('Server started....', PORT);
   });
-// });
-
-/* app.listen(PORT, () => {
-  console.log('connected..2.');
-}); */
+});
 
 // Start the app by listening on the default Heroku port
 // app.listen(process.env.PORT || 8080);
-exports = app;
+module.exports = app;

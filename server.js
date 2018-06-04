@@ -2,7 +2,7 @@
 const express = require('express'), //
       app = express(),
       path = require('path'),
-      // cors = require('cors'),
+      cors = require('cors'),
       bodyParser = require('body-parser'),
       favicon = require('serve-favicon'),
       coinRoutes = require('./expressRoutes/coinRoutes'),
@@ -24,7 +24,7 @@ const express = require('express'), //
         },
       });
 
-const cors = require('cors');
+// const cors = require('cors');
 const PORT = process.env.PORT || 8080;
 // configuration ===========================//
 // const pg = require('pg'); //
@@ -41,6 +41,7 @@ function ignoreFavicon(req, res, next) {
     res.status(204).json({
       nope: true
     });
+    next;
   } else {
     next();
   }
@@ -49,9 +50,9 @@ function ignoreFavicon(req, res, next) {
 app.use(ignoreFavicon);
 
 app.use(express.static('public')); //
-app.use(favicon(path.join(__dirname + '\/public/favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public/favicon.ico')));
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(bodyParser.text());
 
@@ -63,9 +64,10 @@ if ('production' === app.get('env')) {
   app.use(express.static(path.join(__dirname, '/dist')));
   app.use(express.static(path.join(__dirname, '/public')));
   app.use(favicon(path.join(__dirname + '/public/favicon.ico')));
-  app.use(ignoreFavicon);
+  // app.use(ignoreFavicon);
   app.get('/*', (req, res, next) => {
     res.sendFile(path.join(__dirname, '/dist/index.html'));
+    next;
   });
 }
 else {
@@ -81,10 +83,13 @@ else {
 };
 
 // create coins and send back all coins after creation;
-// sequelize.sync().then(() => {
+sequelize.sync().then(() => {
   app.listen(process.env.PORT || 8080, () => {
     console.log('server', app.get('env'));
     console.log('Server listening on Port', PORT);
   });
-// });
+});
+
+// Start the app by listening on the default Heroku port
+// app.listen(process.env.PORT || 8080);
 module.exports = app;
