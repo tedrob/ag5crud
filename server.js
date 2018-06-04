@@ -2,8 +2,8 @@
 const express = require('express'), //
       app = express(),
       path = require('path'),
+      // cors = require('cors'),
       bodyParser = require('body-parser'),
-      cors = require('cors'),
       favicon = require('serve-favicon'),
       coinRoutes = require('./expressRoutes/coinRoutes'),
       // db = require('./model/coin'),
@@ -24,14 +24,17 @@ const express = require('express'), //
         },
       });
 
+const cors = require('cors');
 const PORT = process.env.PORT || 8080;
 // configuration ===========================//
 // const pg = require('pg'); //
 const db = require('./model/coin');
 
 // Sets up the Express app to handle data parsing
-app.use(bodyParser.json());
+
 app.use(cors());
+app.options('*', cors());
+app.use(bodyParser.json());
 
 function ignoreFavicon(req, res, next) {
   if (req.originalUrl === '/public/favicon.ico') {
@@ -41,7 +44,7 @@ function ignoreFavicon(req, res, next) {
   } else {
     next();
   }
-}
+};
 
 app.use(ignoreFavicon);
 
@@ -54,13 +57,14 @@ app.use(bodyParser.text());
 
 app.use('/coins', coinRoutes);
 
+// Setup a default catch-all route
 if ('production' === app.get('env')) {
   console.log('server -production');
   app.use(express.static(path.join(__dirname, '/dist')));
   app.use(express.static(path.join(__dirname, '/public')));
   app.use(favicon(path.join(__dirname + '/public/favicon.ico')));
   app.use(ignoreFavicon);
-  app.get('*', (req, res) => {
+  app.get('/*', (req, res, next) => {
     res.sendFile(path.join(__dirname, '/dist/index.html'));
   });
 }
@@ -70,24 +74,13 @@ else {
   app.use(express.static(path.join(__dirname, '/public')));
   app.use(favicon(path.join(__dirname + '/public/favicon.ico')));
     app.use(ignoreFavicon);
-  app.get('*', (req, res) => {
+  app.get('/*', (req, res, next) => {
     res.sendFile(path.join(__dirname, '/src/index.html'));
+    next;
   });
-}
+};
 
-
-// Setuo a default catch-all route
-/* app.get('*', (req, res) => {
-   res.sendFile(path.join(__dirname, 'dist/index.html'));
-}); */ //
-
-// create coins and send back all coins after creation
-/* app.listen(8080);
-console.log('App listening on port 8080'); */
-/* app.listen(process.env.PORT || 8080, () => {
-  console.log('App listening on port 8080');
-}); */
-
+// create coins and send back all coins after creation;
 // sequelize.sync().then(() => {
   app.listen(process.env.PORT || 8080, () => {
     console.log('server', app.get('env'));
