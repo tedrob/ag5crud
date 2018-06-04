@@ -34,7 +34,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 function ignoreFavicon(req, res, next) {
-  if (req.originalUrl === 'favicon.ico') {
+  if (req.originalUrl === '/public/favicon.ico') {
     res.status(204).json({
       nope: true
     });
@@ -57,7 +57,8 @@ app.use('/coins', coinRoutes);
 if ('production' === app.get('env')) {
   console.log('server -production');
   app.use(express.static(path.join(__dirname, '/dist')));
-  app.use(favicon(path.join(__dirname + '\/public/favicon.ico')));
+  app.use(express.static(path.join(__dirname, '/public')));
+  app.use(favicon(path.join(__dirname + '/public/favicon.ico')));
   app.use(ignoreFavicon);
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '/dist/index.html'));
@@ -65,8 +66,10 @@ if ('production' === app.get('env')) {
 }
 else {
   console.log('server app-');
-  app.use(express.static(path.join(__dirname, '/dist')));
+  app.use(express.static(path.join(__dirname, '/src')));
+  app.use(express.static(path.join(__dirname, '/public')));
   app.use(favicon(path.join(__dirname + '/public/favicon.ico')));
+    app.use(ignoreFavicon);
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '/src/index.html'));
   });

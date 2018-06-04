@@ -91,17 +91,19 @@ app.use('/coins', coinRoutes);
 if ('production' === app.get('env')) {
   console.log('app -production');
   app.use(express.static(path.join(__dirname, '/dist')));
-  app.use(favicon(path.join(__dirname + '\/public/favicon.ico')));
+  app.use(express.static(path.join(__dirname, './public')));
+  app.use(favicon(path.join(__dirname, `/public/favicon.ico`)));
   app.use(ignoreFavicon);
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '/dist/index.html'));
+    res.sendFile(path.join(__dirname, './dist/index.html'));
   }); //
 } else {
   console.log('app -development');
-  app.use(express.static(path.join(__dirname, '/dist')));
-  app.use(favicon(path.join(__dirname + '/public/favicon.ico')));
+  app.use(express.static(path.join(__dirname, './src')));
+  app.use(express.static(path.join(__dirname, './public')));
+  app.use(favicon(path.join(__dirname, 'public/favicon.ico')));
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '/src/index.html'));
+    res.sendFile(path.join(__dirname, `src/index.html`));
   });
 }
 
@@ -147,4 +149,4 @@ if ('production' === app.get('env')) {
 
 // Start the app by listening on the default Heroku port
 // app.listen(process.env.PORT || 8080);
-module.exports = app;
+exports = app;
