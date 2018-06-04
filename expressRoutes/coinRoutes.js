@@ -38,7 +38,11 @@ env = app.get('env');
 
 const config = require(`${__dirname}/../config/config.json`)[env];
 // const connectionString = process.env.DATABASE_URL || 'postgres://postgres:P2ssw0rd@localhost:5432/ag5ted';
-const DATABASE_URL = (`$(heroku config:get DATABASE_URL -a ag5-crud)`);
+// const DATABASE_URL = require(`heroku config:get DATABASE_URL -a ag5-crud`)[env];
+console.log('confg', config);
+console.log('confg env', config.us_env_variable);
+
+// console.log('database', DATABASE_URL);
 
 const Sequelize = require('sequelize');
 let sequelize; //
@@ -63,11 +67,11 @@ if ( app.get('env') === 'production') {
   }); //
 } else {
   // console.log('routes-dev',config.url );
-  sequelize = new Sequelize(config.url, {
+  sequelize = new Sequelize(config.url_prod, {
     dialect: 'postgres',
-    'ssl': false,
+    'ssl': true,
     dialectOptions:{
-      ssl: false
+      ssl: true
     },
     operatorsAliases: false,
   }); //
