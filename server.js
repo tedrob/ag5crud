@@ -60,7 +60,8 @@ app.use('/coins', coinRoutes);
 
 // Setup a default catch-all route
 if ('production' === app.get('env')) {
-  console.log('server -production');
+  const env = app.get('env')
+  console.log('server server-production=',env);
   app.use(express.static(path.join(__dirname, '/dist')));
   app.use(express.static(path.join(__dirname, '/public')));
   app.use(favicon(path.join(__dirname + '/public/favicon.ico')));
@@ -71,7 +72,8 @@ if ('production' === app.get('env')) {
   });
 }
 else {
-  console.log('server app-');
+  const env = app.get('env')
+  console.log('server server-development=',env);
   app.use(express.static(path.join(__dirname, '/src')));
   app.use(express.static(path.join(__dirname, '/public')));
   app.use(favicon(path.join(__dirname + '/public/favicon.ico')));
