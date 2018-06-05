@@ -33,28 +33,24 @@ const coinRoutes = express.Router();
 let env = process.env.NODE_ENV || 'development';
 // let env = process.env.NODE_ENV || 'production';
 // console.log('get app', app.get('env'));
-env = app.get('env');
+// env = app.get('env');
 // console.log('appGet', app.get('env'));
 
 const config = require(`${__dirname}/../config/config.json`)[env];
-// const connectionString = process.env.DATABASE_URL || 'postgres://postgres:P2ssw0rd@localhost:5432/ag5ted';
-// const DATABASE_URL = require(`heroku config:get DATABASE_URL -a ag5-crud`)[env];
+// const connectionString = process.env.DATABASE_URL || 'postgres://postgres:P2ssw0rd@localhost:5432/ag5ted'; //
 console.log('confg', config);
-console.log('confg env', config.us_env_variable);
+console.log('confg NODE_env', config.us_env_variable);
 
 // console.log('database', DATABASE_URL);
 
 const Sequelize = require('sequelize');
 let sequelize; //
 // ---
-// console.log('routes', process.env.NODE_ENV);//
-// console.log('cc routes', DATABASE_URL,'cc', config.url); //
-
-// console.log('Non-env',env);
-// console.log('process', process.env.NODE_ENV, 'config', config.url_prod);
+console.log('env', env);
+console.log('NODE_env', process.env.NODE_ENV); //
 
 //if (config.use_env_variable) {
-if ( app.get('env') === 'production') {
+if ( env === 'production') {
   // console.log('routes-prod', config.url_prod, 'env',config.use_env_variable );
   app.use(cors());
   sequelize = new Sequelize(config.url_prod, {

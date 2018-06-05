@@ -8,7 +8,7 @@ const express = require('express'), //
       coinRoutes = require('./expressRoutes/coinRoutes'),
       // db = require('./model/coin'),
       config = require('./config/config.json'),
-      // PORT = process.env.PORT || 8080,
+      PORT = process.env.PORT || 8080,
       Sequelize = require('sequelize'),
       sequelize = new Sequelize(config.development.url_prod, {
         dialect: 'postgres',
@@ -36,7 +36,7 @@ const protectCfg = {
 const protect = require('overload-protection')('express', protectCfg);
 
 // const cors = require('cors');
-const PORT = process.env.PORT || 8080;
+// const PORT = process.env.PORT || 8080;
 // configuration ===========================//
 // const pg = require('pg'); //
 const db = require('./model/coin');
@@ -62,7 +62,7 @@ function ignoreFavicon(req, res, next) {
 app.use(ignoreFavicon);
 
 app.use(express.static('public')); //
-app.use(favicon(path.join(__dirname, 'public/favicon.ico')));
+app.use(favicon(path.join(__dirname, './public/favicon.ico')));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -74,13 +74,13 @@ app.use('/coins', coinRoutes);
 if ('production' === app.get('env')) {
   const env = app.get('env')
   console.log('server server-production=',env);
-  app.use(express.static(path.join(__dirname, 'dist')));
-  app.use(express.static(path.join(__dirname, '/public')));
-  app.use(favicon(path.join(__dirname, 'public/favicon.ico')));
-  app.use(favicon(path.join(__dirname, 'dist/favicon.ico')));
+  app.use(express.static(path.join(__dirname, './dist')));
+  app.use(express.static(path.join(__dirname, './public')));
+  app.use(favicon(path.join(__dirname, './public/favicon.ico')));
+  app.use(favicon(path.join(__dirname, './dist/favicon.ico')));
   // app.use(ignoreFavicon);
   app.get('/*', (req, res, next) => {
-    res.sendFile(path.join(__dirname, 'dist/index.html'));
+    res.sendFile(path.join(__dirname, './dist/index.html'));
     next;
   });
 }
@@ -92,9 +92,9 @@ else {
   app.use(express.static(path.join(__dirname, './public')));
   app.use(favicon(path.join(__dirname, './public//favicon.ico')));
   app.use(favicon(path.join(__dirname, './dist/favicon.ico')));
-  app.use(ignoreFavicon);
+  // app.use(ignoreFavicon);
   app.get('/*', (req, res, next) => {
-    res.sendFile(path.join(__dirname, 'dist/index.html'));
+    res.sendFile(path.join(__dirname, './dist/index.html'));
     next;
   });
 };
