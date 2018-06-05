@@ -57,7 +57,7 @@ app.use(ignoreFavicon); */
 
 // app.use(express.static('public')); //
 // app.use(favicon(path.join(__dirname, './public/favicon.ico')));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(bodyParser.text());
 
