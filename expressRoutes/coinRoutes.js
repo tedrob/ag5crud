@@ -64,7 +64,7 @@ const Posts = sequelize.define('Coin', {
 // Defined store route
 coinRoutes.route('/add').post((req, res, next) => {
   const results = [];
-  const data = {text: req.body, complete: false};//
+  const data = {'text': req.body, 'complete': false};//
   Posts.create({
     'name': req.body.name,
     'price': req.body.price
@@ -74,12 +74,10 @@ coinRoutes.route('/add').post((req, res, next) => {
       res.status(200).json({
       'coin': 'Coin added successfully',
     });
-    next;
   })
   .catch((err) => {
     console.log('err',err.message,'info', err.info);
-    res.status(400).send(err.message + 'Unable to connect to database');
-    next;
+    res.status(400).send(err.message + 'Unable to connect to database'); //
   })
 });
 /* coinRoutes.route('/add').post(function (req, res) {

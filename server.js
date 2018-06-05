@@ -64,6 +64,17 @@ app.use(bodyParser.text());
 app.use('/coins', coinRoutes);
 const env = app.get('env');
 
+const _ = require('underscore');
+
+app.use((req, res, next) => {
+  // app.use(express.bodyParser());
+  // app.use(allowCrossDomain);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control_allow-Origin', 'GET, POST, OPTION, PUT, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  next();
+});
+
 // Setup a default catch-all route
 if ('production' === env) {
   console.log('server server-production=',env);

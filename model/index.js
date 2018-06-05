@@ -15,7 +15,7 @@ if (env === 'production') {
     'dialect': 'postgres',
     'ssl': true,
     'dialectOptions': {
-      ssl: true
+      'ssl': true
     },
     'operatorsAliases': false,
   });
