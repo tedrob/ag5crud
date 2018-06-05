@@ -39,6 +39,7 @@
     "jquery": "^3.3.1",
     "method-override": "^2.3.10",
     "morgan": "^1.9.0",
+    "node_env": "0.0.3",
     "nodemailer": "^4.6.5",
     "overload-protection": "^1.1.0",
     "parse-server": "^2.8.1",
