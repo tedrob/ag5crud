@@ -76,7 +76,8 @@ coinRoutes.route('/add').post((req, res, next) => {
     });
   })
   .catch((err) => {
-    res.status(400).send(err + 'Unable to connect to database');
+    console.log('err',err.message,'info', err.info);
+    res.status(401).send(err + 'Unable to connect to database');
   })
 });
 /* coinRoutes.route('/add').post(function (req, res) {

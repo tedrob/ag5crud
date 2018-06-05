@@ -10,8 +10,8 @@ console.log('index', process.env.NODE_ENV);
 
 if (process.env.NODE_ENV) {
   console.log('index-prod');
-  sequelize = new Sequelize(config.url, {
-    host: process.env.POSTGRESQL_LOCAL_HOST,
+  sequelize = new Sequelize(config.url_prod, {
+    // host: process.env.POSTGRESQL_LOCAL_HOST,
     dialect: 'postgres',
     'ssl': true,
     dialectOptions: {
@@ -22,7 +22,7 @@ if (process.env.NODE_ENV) {
 } else {
   console.log('index-dev');
   sequelize = new Sequelize(config.url, {
-    host: process.env.POSTGRESQL_LOCAL_HOST,
+    // host: process.env.POSTGRESQL_LOCAL_HOST,
     dialect: 'postgres',
     'ssl': false,
     dialectOptions: {

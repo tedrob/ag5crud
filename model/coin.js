@@ -3,7 +3,7 @@ const env = process.env.MODE_ENV || 'development';
 const config = require(`${__dirname}/../config/config.json`)[env];
 const Sequelize = require('sequelize');
 const Datatypes = require('sequelize/lib/data-types');
-const sequelize = new Sequelize(config.url, {
+const sequelize = new Sequelize(config.url_prod, {
   dialect: 'postgres',
   'ssl': true,
   operatorsAliases: 'false',

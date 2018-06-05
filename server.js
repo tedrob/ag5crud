@@ -68,11 +68,8 @@ if ('production' === app.get('env')) {
   const env = app.get('env')
   console.log('server server-production=',env);
   app.use(express.static(path.join(__dirname, './dist')));
-  // app.use(express.static(path.join(__dirname, './public')));
-  // app.use(favicon(path.join(__dirname, './public/favicon.ico')));
-  // app.use(favicon(path.join(__dirname, './dist/favicon.ico')));
-  // app.use(ignoreFavicon);
-  app.get('/*', (req, res, next) => {
+//   app.get('/*', (req, res, next) => {
+  app.get('*', (req, res, next) => {
     res.sendFile(path.join(__dirname, './dist/index.html'));
     next;
   });
@@ -82,10 +79,7 @@ else {
   console.log('server server-development=',env);
   console.log('dirname=', __dirname);
   app.use(express.static(path.join(__dirname, './dist')));
-  // app.use(express.static(path.join(__dirname, './public')));
-  // app.use(favicon(path.join(__dirname, './public//favicon.ico')));
-  // app.use(favicon(path.join(__dirname, './dist/favicon.ico')));
-  // app.use(ignoreFavicon);
+
   app.get('/*', (req, res, next) => {
     res.sendFile(path.join(__dirname, './dist/index.html'));
     next;
@@ -96,7 +90,6 @@ else {
 // sequelize.sync().then(() => {
   app.listen(process.env.PORT || 8080, () => {
     console.log('server', app.get('env'));
-    // console.log('Server listening on Port', PORT);
   });
 // });
 
