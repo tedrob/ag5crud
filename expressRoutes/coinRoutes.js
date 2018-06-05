@@ -69,15 +69,17 @@ coinRoutes.route('/add').post((req, res, next) => {
     name: req.body.name,
     price: req.body.price
   })
-  .then((item) =>{
+  .then((item) => {
     // console.log('created');
       res.status(200).json({
-      'coin': 'Coin added successfully'
+      'coin': 'Coin added successfully',
     });
+    next;
   })
   .catch((err) => {
     console.log('err',err.message,'info', err.info);
-    res.status(401).send(err + 'Unable to connect to database');
+    res.status(400).send(err.message + 'Unable to connect to database');
+    next;
   })
 });
 /* coinRoutes.route('/add').post(function (req, res) {
