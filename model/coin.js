@@ -1,5 +1,5 @@
 'use strict'
-const env = process.env.MODE_ENV || 'development';
+const env = process.env.NODE_ENV || 'development';
 const config = require(`${__dirname}/../config/config.json`)[env];
 const Sequelize = require('sequelize');
 const Datatypes = require('sequelize/lib/data-types');

@@ -14,12 +14,12 @@ const config = require(`${__dirname}/../config/config.json`)[env];
 const Sequelize = require('sequelize');
 let sequelize;
 sequelize = new Sequelize(config.url_prod, {
-  dialect: 'postgres',
+  'dialect': 'postgres',
   'ssl': true,
-  dialectOptions: {
-    ssl: true
+  'dialectOptions': {
+    'ssl': true
   },
-  operatorsAliases: false,
+  'operatorsAliases': false,
 });
 
 //if (config.use_env_variable) {
@@ -57,8 +57,8 @@ sequelize.ssl = true;
 console.log('seq', sequelize.ssl); */
 
 const Posts = sequelize.define('Coin', {
-  name: {type: Sequelize.STRING},
-  price: {type: Sequelize.DECIMAL},
+  'name': {type: Sequelize.STRING},
+  'price': {type: Sequelize.DECIMAL},
 });
 
 // Defined store route
@@ -66,8 +66,8 @@ coinRoutes.route('/add').post((req, res, next) => {
   const results = [];
   const data = {text: req.body, complete: false};//
   Posts.create({
-    name: req.body.name,
-    price: req.body.price
+    'name': req.body.name,
+    'price': req.body.price
   })
   .then((item) => {
     // console.log('created');

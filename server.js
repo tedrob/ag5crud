@@ -62,24 +62,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.text());
 
 app.use('/coins', coinRoutes);
+const env = app.get('env');
 
 // Setup a default catch-all route
-if ('production' === app.get('env')) {
-  const env = app.get('env')
+if ('production' === env) {
   console.log('server server-production=',env);
   app.use(express.static(path.join(__dirname, './dist')));
-//   app.get('/*', (req, res, next) => {
-  app.get('*', (req, res, next) => {
+  app.get('/*', (req, res, next) => {
     res.sendFile(path.join(__dirname, './dist/index.html'));
     next;
   });
 }
 else {
-  const env = app.get('env')
-  console.log('server server-development=',env);
-  console.log('dirname=', __dirname);
-  app.use(express.static(path.join(__dirname, './dist')));
-
+  console.log('server server-development=',env); //
+  app.use(express.static(path.join(__dirname, './dist'))); //
   app.get('/*', (req, res, next) => {
     res.sendFile(path.join(__dirname, './dist/index.html'));
     next;

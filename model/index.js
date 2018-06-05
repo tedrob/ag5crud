@@ -6,29 +6,29 @@ const env = process.env.NODE_ENV || 'development';
 const config = require(`${__dirname}/../config/config.json`)[env];
 const Sequelize = require('sequelize');
 let sequelize;
-console.log('index', process.env.NODE_ENV);
+console.log('index', env);
 
-if (process.env.NODE_ENV) {
+if (env === 'production') {
   console.log('index-prod');
   sequelize = new Sequelize(config.url_prod, {
-    host: process.env.POSTGRESQL_LOCAL_HOST,
-    dialect: 'postgres',
+    'host': process.env.POSTGRESQL_LOCAL_HOST,
+    'dialect': 'postgres',
     'ssl': true,
-    dialectOptions: {
+    'dialectOptions': {
       ssl: true
     },
-    operatorsAliases: false,
+    'operatorsAliases': false,
   });
 } else {
   console.log('index-dev');
   sequelize = new Sequelize(config.url, {
-    host: process.env.POSTGRESQL_LOCAL_HOST,
-    dialect: 'postgres',
+    'host': process.env.POSTGRESQL_LOCAL_HOST,
+    'dialect': 'postgres',
     'ssl': false,
-    dialectOptions: {
-      ssl: false,
+    'dialectOptions': {
+      'ssl': false,
     },
-    operatorsAliases: false,
+    'operatorsAliases': false,
   });
 }
 
