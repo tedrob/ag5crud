@@ -1,36 +1,8 @@
-// coinRoutes.js
-const Coin = require('./../model/coin');
-/* module.exports = (app)  => {
-  // api -------------------------------
-  // create coin and send back all coins after creation
-  app.post('/api/add', (req, res) => {
-    // get all coins
-
-    // create a coin
-    Coin.create({
-      name: {
-          type: req.body.name
-        },
-        price: {
-          type: req.body.priceprice
-        },
-    }, (err, coin) => {
-      if (err) {
-        res.send(err);
-      }
-    });
-
-  });
-
-  // delete a coin
-};
- */
-////
-
-const express = require('express'); //
-const app = express();
+const express = require('express');
 const coinRoutes = express.Router();
+const Coin = require('./../model/coin'); //
 let env = process.env.NODE_ENV || 'development'; //
+const PORT = process.env.PORT || 8080;
 
 const config = require(`${__dirname}/../config/config.json`)[env];
 // const connectionString = process.env.DATABASE_URL || 'postgres://postgres:P2ssw0rd@localhost:5432/ag5ted'; //
@@ -40,13 +12,18 @@ const config = require(`${__dirname}/../config/config.json`)[env];
 // console.log('database', DATABASE_URL);
 
 const Sequelize = require('sequelize');
-let sequelize; //
-// ---
-// console.log('env', env);
-// console.log('NODE_env', process.env.NODE_ENV); //
+let sequelize;
+sequelize = new Sequelize(config.url_prod, {
+  dialect: 'postgres',
+  'ssl': true,
+  dialectOptions: {
+    ssl: true
+  },
+  operatorsAliases: false,
+});
 
 //if (config.use_env_variable) {
-if ( env === 'production') {
+/* if ( env === 'production') {
   // console.log('routes-prod', config.url_prod, 'env',config.use_env_variable );
   app.use(cors());
   sequelize = new Sequelize(config.url_prod, {
@@ -67,18 +44,14 @@ if ( env === 'production') {
     },
     operatorsAliases: false,
   }); //
-} //
-const PORT = process.env.PORT || 8080;
-
-// Require Item model in our routes module
-// const coin = require('./../model/coin');
-// const coin = require('./../model');
+} */ //
 
 
+// Require Item model in our routes module //
 // add to make sure connecting
-sequelize.authenticate().then(() => {
+/* sequelize.authenticate().then(() => {
   console.log('Success!');
-});
+}); */
 /* sequelize.operatorsAliases = false;
 sequelize.ssl = true;
 console.log('seq', sequelize.ssl); */
@@ -91,10 +64,7 @@ const Posts = sequelize.define('Coin', {
 // Defined store route
 coinRoutes.route('/add').post((req, res, next) => {
   const results = [];
-  const data = {text: req.body, complete: false};
-  // console.log('ready to post name=', req.body.name, ' and  price=', req.body.price);
-
-  // console.log('post data', JSON.stringify(data)); //
+  const data = {text: req.body, complete: false};//
   Posts.create({
     name: req.body.name,
     price: req.body.price

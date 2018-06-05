@@ -4,12 +4,12 @@ const express = require('express'), //
       path = require('path'),
       cors = require('cors'),
       bodyParser = require('body-parser'),
-      favicon = require('serve-favicon'),
-      coinRoutes = require('./expressRoutes/coinRoutes'),
-      db = require('./model/coin'),
-      config = require('./config/config.json'),
-      PORT = process.env.PORT || 8080,
-      Sequelize = require('sequelize'),
+      // favicon = require('serve-favicon'),
+      coinRoutes = require('./expressRoutes/coinRoutes');
+      // db = require('./model/coin'),
+      // config = require('./config/config.json'),
+      // PORT = process.env.PORT || 8080;
+      /* Sequelize = require('sequelize'),
       sequelize = new Sequelize(config.development.url_prod, {
         dialect: 'postgres',
         'ssl': true,
@@ -22,7 +22,7 @@ const express = require('express'), //
           min: 0,
           idle: 10000
         },
-      });
+      }); */
 
 /* const protectCfg = {
   production: process.env.NODE_ENV === 'production', // if production is false, detailed error messages are exposed to the client
@@ -96,7 +96,7 @@ else {
 // sequelize.sync().then(() => {
   app.listen(process.env.PORT || 8080, () => {
     console.log('server', app.get('env'));
-    console.log('Server listening on Port', PORT);
+    // console.log('Server listening on Port', PORT);
   });
 // });
 

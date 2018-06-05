@@ -5,6 +5,11 @@ const Sequelize = require('sequelize');
 const Datatypes = require('sequelize/lib/data-types');
 const sequelize = new Sequelize(config.url, {
   dialect: 'postgres',
+  'ssl': true,
+  operatorsAliases: 'false',
+  dialectOptions: {
+    ssl: true
+  },
 });
 
 module.exports = (sequelize, DataTypes) => { //
