@@ -64,7 +64,8 @@ const Posts = sequelize.define('Coin', {
 // Defined store route
 coinRoutes.route('/add').post((req, res, next) => {
   const results = [];
-  const data = {'text': req.body, 'complete': false};//
+  console.log('name',req.body.name, 'price', req.body.price)
+  const data = {'name': req.body.name, 'price': req.body.price, complete: false};//
   Posts.create({
     'name': req.body.name,
     'price': req.body.price
