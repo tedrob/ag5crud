@@ -30,24 +30,20 @@ const Coin = require('./../model/coin');
 const express = require('express'); //
 const app = express();
 const coinRoutes = express.Router();
-let env = process.env.NODE_ENV || 'development';
-// let env = process.env.NODE_ENV || 'production';
-// console.log('get app', app.get('env'));
-// env = app.get('env');
-// console.log('appGet', app.get('env'));
+let env = process.env.NODE_ENV || 'development'; //
 
 const config = require(`${__dirname}/../config/config.json`)[env];
 // const connectionString = process.env.DATABASE_URL || 'postgres://postgres:P2ssw0rd@localhost:5432/ag5ted'; //
-console.log('confg', config);
-console.log('confg NODE_env', config.us_env_variable);
+// console.log('confg', config);
+// console.log('confg NODE_env', config.us_env_variable);
 
 // console.log('database', DATABASE_URL);
 
 const Sequelize = require('sequelize');
 let sequelize; //
 // ---
-console.log('env', env);
-console.log('NODE_env', process.env.NODE_ENV); //
+// console.log('env', env);
+// console.log('NODE_env', process.env.NODE_ENV); //
 
 //if (config.use_env_variable) {
 if ( env === 'production') {

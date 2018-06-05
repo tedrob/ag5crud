@@ -100,12 +100,12 @@ else {
 };
 
 // create coins and send back all coins after creation;
-sequelize.sync().then(() => {
+// sequelize.sync().then(() => {
   app.listen(process.env.PORT || 8080, () => {
     console.log('server', app.get('env'));
     console.log('Server listening on Port', PORT);
   });
-});
+// });
 
 // Start the app by listening on the default Heroku port
 // app.listen(process.env.PORT || 8080);
