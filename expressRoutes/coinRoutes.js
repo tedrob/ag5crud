@@ -1,3 +1,4 @@
+'use strict'
 const express = require('express'),
       coinRoutes = express.Router(),
       Coin = require('./../model/coin'),
@@ -10,12 +11,12 @@ const express = require('express'),
 
 // const Sequelize = require('sequelize');
 const sequelize = new Sequelize(config.url_prod, {
-  'dialect': 'postgres',
-  'ssl': true,
-  'dialectOptions': {
-    'ssl': true
+  dialect: 'postgres',
+  ssl: true,
+  dialectOptions: {
+    ssl: true
   },
-  'operatorsAliases': false,
+  operatorsAliases: false,
 });
 
 //if (config.use_env_variable) {
@@ -63,13 +64,13 @@ coinRoutes.route('/add').post((req, res, next) => {
   console.log('name',req.body.name, 'price', req.body.price)
   const data = {'name': req.body.name, 'price': req.body.price, complete: false};//
   Posts.create({
-    'name': req.body.name,
-    'price': req.body.price
+    name: req.body.name,
+    price: req.body.price
   })
   .then((item) => {
     // console.log('created');
       res.status(200).json({
-      'coin': 'Coin added successfully',
+      coin: 'Coin added successfully',
     });
   })
   .catch((err) => {
