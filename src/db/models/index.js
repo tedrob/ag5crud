@@ -27,7 +27,7 @@ if (process.env.DATABASE_URL) {
     }
   );
 };
-console.log('ccof-fs',config.url);
+console.log('ccof-fs',env);
 
 fs
   .readdirSync(__dirname)
@@ -46,7 +46,7 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
-console.log('fs- after', config.url);
+console.log('fs- after', config);
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

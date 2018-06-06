@@ -12,12 +12,14 @@ const express = require('express'),
 const client = new pg.Client(connectString);
 console.log('database', '(',process.env.DATABASE_URL,')');
 console.log('database2', '(', connectString, ')');
+console.log('env 2', '(', env, ')');
+
 
 
 // const Sequelize = require('sequelize');
 // const sequelize = new Sequelize(config.url_prod, {
 let sequelize;
-if (process.env.DATABASE_URL) {
+if (env === 'production') {
   sequelize = new Sequelize(connectString, {
     dialect: 'postgres',
     ssl: true,
