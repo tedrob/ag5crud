@@ -67,6 +67,7 @@ let Port = process.env.PORT || 8080;
 if ('production' === env) {
   console.log('server server-production=',env);
   console.log('port-P', Port);
+  consol.log('process ','(',process.env.HEROKU_POSTGRSQL_POINTY_73069,')');
   app.use(express.static(path.join(__dirname, './dist')));
   app.get('/*', (req, res, next) => {
     res.sendFile(path.join(__dirname, './dist/index.html'));
