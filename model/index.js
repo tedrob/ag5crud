@@ -1,16 +1,18 @@
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
-const env = process.env.NODE_ENV || 'development';
-const config = require(`${__dirname}/../config/config.json`)[env];
-const Sequelize = require('sequelize');
+const fs = require('fs'),
+      path = require('path'),
+      env = process.env.NODE_ENV || 'development',
+      config = require(`${__dirname}/../config/config.json`)[env],
+      connectString = process.env.DATABASE_URL || config.url,
+      Sequelize = require('sequelize');
 let sequelize;
 console.log('index', env);
 
 if (env === 'production') {
   console.log('index-prod');
-  sequelize = new Sequelize(config.url_prod, {
+  // sequelize = new Sequelize(config.url_prod, {
+  sequelize = new Sequelize(connectString, {
     'host': process.env.POSTGRESQL_LOCAL_HOST,
     'dialect': 'postgres',
     'ssl': true,
@@ -21,7 +23,8 @@ if (env === 'production') {
   });
 } else {
   console.log('index-dev');
-  sequelize = new Sequelize(config.url_prod, {
+  // sequelize = new Sequelize(config.url_prod, {
+  sequelize = new Sequelize(connectString, {
     'host': process.env.POSTGRESQL_LOCAL_HOST,
     'dialect': 'postgres',
     'ssl': false,

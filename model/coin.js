@@ -1,16 +1,30 @@
 'use strict'
 const env = process.env.NODE_ENV || 'development',
       config = require(`${__dirname}/../config/config.json`)[env],
-      Sequelize = require('sequelize'),
-// const Datatypes = require('sequelize/lib/data-types');
-      sequelize = new Sequelize(config.url_prod, {
-        dialect: 'postgres',
-        ssl: true,
-        operatorsAliases: 'false',
-        dialectOptions: {
-          ssl: true
-      },
-});
+      connectString = process.env.DATABASE_URL || config.url,
+      Sequelize = require('sequelize');
+      // sequelize = new Sequelize(config.url_prod, {
+
+let sequelize;
+if (env === 'production') {
+  sequelize = new Sequelize(connectString, {
+    dialect: 'postgres',
+      ssl: true,
+      operatorsAliases: 'false',
+      dialectOptions: {
+        ssl: true
+    },
+  });
+} else {
+  sequelize = new Sequelize(connectString, {
+    dialect: 'postgres',
+    ssl: false,
+    operatorsAliases: 'false',
+    dialectOptions: {
+      ssl: false
+    },
+  });
+}
 
 module.exports = (sequelize, DataTypes) => { //
   const Coin = sequelize.define('Coin', {

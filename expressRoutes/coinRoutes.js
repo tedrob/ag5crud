@@ -5,19 +5,38 @@ const express = require('express'),
       env = process.env.NODE_ENV || 'development',
       PORT = process.env.PORT || 8080,
       config = require(`${__dirname}/../config/config.json`)[env],
+      connectString = process.env.DATABASE_URL || config.url,
+      pg = require('pg'),
       Sequelize = require('sequelize');
 
-// console.log('database', DATABASE_URL);
+const client = new pg.Client(connectString);
+console.log('database', '(',process.env.DATABASE_URL,')');
+console.log('database2', '(', connectString, ')');
+
 
 // const Sequelize = require('sequelize');
-const sequelize = new Sequelize(config.url_prod, {
-  dialect: 'postgres',
-  ssl: true,
-  dialectOptions: {
-    ssl: true
-  },
-  operatorsAliases: false,
-});
+// const sequelize = new Sequelize(config.url_prod, {
+let sequelize;
+if (env === 'production') {
+  sequelize = new Sequelize(connectString, {
+    dialect: 'postgres',
+    ssl: true,
+    dialectOptions: {
+      ssl: true
+    },
+    operatorsAliases: false,
+  });
+} else {
+  sequelize = new Sequelize(connectString, {
+    dialect: 'postgres',
+    ssl: false,
+    operatorsAliases: 'false',
+    dialectOptions: {
+      ssl: false
+    },
+  });
+}
+
 
 //if (config.use_env_variable) {
 /* if ( env === 'production') {
