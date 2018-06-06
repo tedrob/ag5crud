@@ -1,4 +1,6 @@
 'use strict';
+const Datatypes = require('sequelize/lib/data-types');
+
 module.exports = (sequelize, DataTypes) => {
   var Persons = sequelize.define('Persons', {
     name: {

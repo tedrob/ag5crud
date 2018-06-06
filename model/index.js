@@ -3,7 +3,7 @@
 const fs = require('fs'),
       path = require('path'),
       env = process.env.NODE_ENV || 'development',
-      config = require(`${__dirname}/../config/config.json`)[env],
+      config = require('${__dirname}/../config/config.json')[env],
       connectString = process.env.DATABASE_URL || config.url,
       Sequelize = require('sequelize');
 let sequelize;
