@@ -21,7 +21,7 @@ if (env === 'production') {
   });
 } else {
   console.log('index-dev');
-  sequelize = new Sequelize(config.url, {
+  sequelize = new Sequelize(config.url_prod, {
     'host': process.env.POSTGRESQL_LOCAL_HOST,
     'dialect': 'postgres',
     'ssl': false,
