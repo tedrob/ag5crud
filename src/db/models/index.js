@@ -11,8 +11,10 @@ const connectString = process.env.DATABASE_URL || config.url;
 
 const db        = {};
 
+console.log('checking', '(', process.env[config.use_env_variable],')');
+
 let sequelize;
-if (env === 'production') {
+if (process.env.DATABASE_URL) {
   sequelize = new Sequelize(process.env[config.use_env_variable]);
 } else {
   sequelize = new Sequelize(connectString, {

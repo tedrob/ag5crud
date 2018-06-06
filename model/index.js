@@ -9,7 +9,7 @@ const fs = require('fs'),
 let sequelize;
 console.log('index', env);
 
-if (env === 'production') {
+if (process.env.DATABASE_URL) {
   console.log('index-prod');
   // sequelize = new Sequelize(config.url_prod, {
   sequelize = new Sequelize(connectString, {

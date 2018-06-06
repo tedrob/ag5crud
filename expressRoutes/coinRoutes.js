@@ -17,7 +17,7 @@ console.log('database2', '(', connectString, ')');
 // const Sequelize = require('sequelize');
 // const sequelize = new Sequelize(config.url_prod, {
 let sequelize;
-if (env === 'production') {
+if (process.env.DATABASE_URL) {
   sequelize = new Sequelize(connectString, {
     dialect: 'postgres',
     ssl: true,
