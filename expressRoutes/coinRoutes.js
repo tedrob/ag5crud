@@ -1,19 +1,15 @@
-const express = require('express');
-const coinRoutes = express.Router();
-const Coin = require('./../model/coin'); //
-let env = process.env.NODE_ENV || 'development'; //
-const PORT = process.env.PORT || 8080;
-
-const config = require(`${__dirname}/../config/config.json`)[env];
-// const connectionString = process.env.DATABASE_URL || 'postgres://postgres:P2ssw0rd@localhost:5432/ag5ted'; //
-// console.log('confg', config);
-// console.log('confg NODE_env', config.us_env_variable);
+const express = require('express'),
+      coinRoutes = express.Router(),
+      Coin = require('./../model/coin'),
+      env = process.env.NODE_ENV || 'development',
+      PORT = process.env.PORT || 8080,
+      config = require(`${__dirname}/../config/config.json`)[env],
+      Sequelize = require('sequelize');
 
 // console.log('database', DATABASE_URL);
 
-const Sequelize = require('sequelize');
-let sequelize;
-sequelize = new Sequelize(config.url_prod, {
+// const Sequelize = require('sequelize');
+const sequelize = new Sequelize(config.url_prod, {
   'dialect': 'postgres',
   'ssl': true,
   'dialectOptions': {
