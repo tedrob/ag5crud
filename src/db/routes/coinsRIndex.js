@@ -1,29 +1,19 @@
 'use strict'
+// import db from './../models/index';
+
 const express   = require('express'),
-      cRoutes   = express.Router(),
-      { Pool }  = require('pg'),
+      cRoutes   = express.Router(), //
       path      = require('path'),
       env       = process.env.NODE_ENV || 'development',
       config    = require(`\../../db/config.json`)[env],
       conStr    = process.env.DATABASE_URL || config.url,
-
+      db        = {},
+      models    = require('\../models'),
       Sequelize = require('sequelize');
 
-console.log('new r Pool-host', '(', process.env.POSTGRESQL_LOCAL_HOST, ')', 'env', env);
-let pool;
-if (env === 'production') {
-  pool = new Pool({
-    connectionString: conStr,
-    ssl: true
-  });
-} else {
-  pool = new Pool({
-    connectionString: conStr,
-    ssl: false
-  });
-}
+console.log('config', conStr);
 
-pool.connect();
+console.log('new r Pool-host', '(', process.env.POSTGRESQL_LOCAL_HOST, ')', 'env', env); //
 
 // app.get('/src/db/models/coin.js');
 

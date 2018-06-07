@@ -12,7 +12,7 @@ const express = require('express'), //
       env = app.get('env'),
       config = require(`${__dirname}/config/config.json`)[env],
       connectString = process.env.DATABASE_URL || config.url,
-      db = require(`${__dirname}/src/db/models/`);
+      db = require(`\./src/db/models`); //  config.json ${__dirname}/src/db/models/`);
       // Sequelize = require('sequelize'); //
 
 console.log('db check', db);
