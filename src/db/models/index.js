@@ -1,15 +1,14 @@
 'use strict';
 
-const fs        = require('fs');
-const path      = require('path');
-const Sequelize = require('sequelize');
-const basename  = path.basename(__filename);
-// const basename = path.basename(module.filename);
-const env       = process.env.NODE_ENV || 'development';
-const config = require('\../config.json')[env];
-const connectString = process.env.DATABASE_URL || config.url;
-
-const db        = {};
+const fs            = require('fs'),
+      path          = require('path'),
+      Sequelize     = require('sequelize'),
+      // basename   = path.basename(__filename);
+      basename      = path.basename(module.filename), //added this back
+      env           = process.env.NODE_ENV || 'development',
+      config        = require('\../config.json')[env],
+      connectString = process.env.DATABASE_URL || config.url,
+      db        = {};
 
 console.log('checking', '(', process.env[config.use_env_variable],')');
 
@@ -45,8 +44,8 @@ fs
   })
   .forEach(file => {
     const model = sequelize['import'](path.join(__dirname, file));
-    // console.log('model', model.name);
     db[model.name] = model;
+    console.log('model', model.name);
   });
 
 Object.keys(db).forEach(modelName => {
@@ -55,6 +54,15 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
+sequelize
+  .authenticate()
+  .then (() => {
+    console.log('connetionc has been exablish successfully.');
+  })
+  .catch((err) => {
+    console.log('Unable to connection to database:', err);
+  });
+
 console.log('fs- after', config.url);
 console.log('fs- afterP', connectString);
 console.log('fs- host',  '{', process.env.host, '}','local','[', `${'localhost'}`,']');
@@ -62,4 +70,6 @@ console.log('fs- host',  '{', process.env.host, '}','local','[', `${'localhost'}
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-exports = db;
+db.user = require('/coin')(sequelize, Sequelize);
+
+module.exports = db;
