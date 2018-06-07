@@ -15,7 +15,7 @@ const express = require('express'), //
       db = require(`\./src/db/models`); //  config.json ${__dirname}/src/db/models/`);
       // Sequelize = require('sequelize'); //
 
-console.log('db check', db);
+// console.log('db check', db.coins); to much info
 
 /* let sequelize; //
 if (env === 'production') {
