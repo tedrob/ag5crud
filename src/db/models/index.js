@@ -54,7 +54,8 @@ Object.keys(db).forEach(modelName => {
 });
 
 console.log('fs- after', config.url);
-console.log('fs- afterP', config.use_env_variable);
+console.log('fs- afterP', connectString);
+console.log('fs- host',  '{', process.env.POSTGRESQL_LOCAL_HOST, '}','local ', `${'localhost'}`);
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
