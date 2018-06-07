@@ -57,7 +57,7 @@ Object.keys(db).forEach(modelName => {
 
 console.log('fs- after', config.url);
 console.log('fs- afterP', connectString);
-console.log('fs- host',  '{', sequelize, '}','local','[', `${'localhost'}`,']');
+console.log('fs- host',  '{', process.env.host, '}','local','[', `${'localhost'}`,']');
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
