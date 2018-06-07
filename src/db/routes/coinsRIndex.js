@@ -54,29 +54,29 @@ const Posts = sequelize.define('Coin', {
 });
 
 // Defined store route
-cRoutes.route('/add').post((req, res, next) => {
-  const results = [];
-  console.log('name', req.body.name, 'price', req.body.price)
-  const data = {
-    name: req.body.name,
-    price: req.body.price,
-    complete: false
-  }; //
-  Posts.create({
+  // create coin
+  cRoutes.route('/add').post((req, res, next) => {
+    /* const data = {
+      name: req.body.name,
+      price: req.body.price,
+      complete: false
+    }; */
+    Posts.create({
       name: req.body.name,
       price: req.body.price
     })
-    .then((item) => {
-      // console.log('created');
-      res.status(200).json({
-        coin: 'Coin added successfully',
-      });
+    .then(() => {
+        res.status(200).json({
+          coin: 'Coin add successfully'
+        });
     })
     .catch((err) => {
-      console.log('err', err.message, 'info', err.info);
-      res.status(400).send(err.message + 'Unable to connect to database'); //
+      if (err) {
+        console.log('err', err);
+        res.status(400).send(err+'Unable to connect');
+      }
     })
-});
+    next;
+  });
 
-module.exports = cRoutes;
-
+module.exports = cRoutes; //

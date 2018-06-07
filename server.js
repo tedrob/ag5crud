@@ -12,34 +12,8 @@ const express = require('express'), //
       env = app.get('env'),
       config = require(`${__dirname}/config/config.json`)[env],
       connectString = process.env.DATABASE_URL || config.url,
-      db = require(`\./src/db/models`); //  config.json ${__dirname}/src/db/models/`);
-      // Sequelize = require('sequelize'); //
-
-// console.log('db check', db.coins); to much info
-
-/* let sequelize; //
-if (env === 'production') {
-  sequelize = new Sequelize(connectString, {
-    dialect: 'postgres',
-    ssl: true,
-    dialectOptions: {
-      ssl: true
-    },
-    operatorsAliases: false,
-  });
-} else {
-  sequelize = new Sequelize(connectString, {
-    dialect: 'postgres',
-    ssl: false,
-    operatorsAliases: 'false',
-    dialectOptions: {
-      ssl: false
-    },
-  });
-}
- */
-
-
+      Port = process.env.PORT || 8080,
+      db = require(`\./src/db/models`);
 // Sets up the Express app to handle data parsing
 
 // const env = app.get('env');
@@ -48,23 +22,24 @@ app.use((req, res, next) => {
   app.use(cors());
   app.options('*', cors());
   app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({
+  /* app.use(bodyParser.urlencoded({
     extended: true
   }));
-  app.use(bodyParser.text());
+  app.use(bodyParser.text()); */
   // app.use('/coins', coinRoutes); //
   app.use('/coins', cRoutes);
   // app.use(allowCrossDomain);
+  // app.use(express.methodOverride());
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control_allow-Origin', 'GET, POST, OPTION, PUT, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
   next();
 });
 
-let Port = process.env.PORT || 8080;
+// let Port = process.env.PORT || 8080;
 
 // Setup a default catch-all route
-if ('production' === env) {
+/* if ('production' === env) {
   console.log('server server-production=',env);
   // console.log('port-P', Port, 'process.env', process.env.DATABASE_URL);
   console.log('process DB ', '(', process.env.DATABASE_URL, ')');
@@ -83,12 +58,17 @@ else {
     next;
   });
 };
-
+ */
 // create coins and send back all coins after creation;
+
+// routes ===========================
 db.sequelize.sync().then(() => {  //
-/*   http.createServer(app).listen(Port, cors(), () => {
-    console.log('server2', Port);
-  }); */
+  console.log('server -env', env);
+  app.use(express.static(path.join(__dirname, './dist')));
+  app.get('/*', (req, res, next) => {
+    res.sendFile(path.join(__dirname, './dist/index.html'));
+    next;
+  });
   app.listen(Port, cors(), () => {
     console.log('server2', Port);
   });

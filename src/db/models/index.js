@@ -58,7 +58,7 @@ Object.keys(db).forEach(modelName => {
 sequelize
   .authenticate()
   .then (() => {
-    console.log('connetionc has been exablish successfully.');
+    console.log('connection has been exablish successfully.');
   })
   .catch((err) => {
     console.log('Unable to connection to database:', err);
