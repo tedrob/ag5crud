@@ -7,6 +7,7 @@ const fs            = require('fs'),
       basename      = path.basename(module.filename), //added this back
       env           = process.env.NODE_ENV || 'development',
       config        = require('\../config.json')[env],
+      Datatypes = require('sequelize/lib/data-types'),  // needed so not have to add to all models
       connectString = process.env.DATABASE_URL || config.url,
       db        = {};
 
@@ -45,7 +46,7 @@ fs
   .forEach(file => {
     const model = sequelize['import'](path.join(__dirname, file));
     db[model.name] = model;
-    console.log('model', model.name);
+    // console.log('model', model.name);
   });
 
 Object.keys(db).forEach(modelName => {
@@ -70,6 +71,6 @@ console.log('fs- host',  '{', process.env.host, '}','local','[', `${'localhost'}
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-db.user = require('/coin')(sequelize, Sequelize);
+db.user = require('\./coin')(sequelize, Sequelize);
 
 module.exports = db;
