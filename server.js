@@ -8,6 +8,7 @@ const express = require('express'), //
       cors = require('cors'),
       bodyParser = require('body-parser'),
       coinRoutes = require('./expressRoutes/coinRoutes'),
+      cRoutes = require('./src/db/routes/coinsRIndex'),
       env = app.get('env'),
       config = require(`${__dirname}/config/config.json`)[env],
       connectString = process.env.DATABASE_URL || config.url,
@@ -51,7 +52,8 @@ app.use((req, res, next) => {
     extended: true
   }));
   app.use(bodyParser.text());
-  app.use('/coins', coinRoutes); //
+  // app.use('/coins', coinRoutes); //
+  app.use('/coins', cRoutes);
   // app.use(allowCrossDomain);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control_allow-Origin', 'GET, POST, OPTION, PUT, DELETE');

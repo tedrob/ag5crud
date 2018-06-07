@@ -27,7 +27,6 @@ if (process.env.DATABASE_URL) {
     }
   );
 };
-console.log('ccof-fs',env);
 
 fs
   .readdirSync(__dirname)
