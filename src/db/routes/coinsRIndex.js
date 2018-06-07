@@ -1,17 +1,36 @@
 'use strict'
-const express = require('express'),
-      cRoutes = express.Router(),
-      pg      = require('pg'),
-      path    = require('path'),
-      env     = process.env.NODE_ENV || 'development',
-      config  = require(`../../db/config.json`)[env],
-      conStr  = process.env.DATABASE_URL || config.url,
+const express   = require('express'),
+      cRoutes   = express.Router(),
+      { Pool }  = require('pg'),
+      path      = require('path'),
+      env       = process.env.NODE_ENV || 'development',
+      config    = require(`\../../db/config.json`)[env],
+      conStr    = process.env.DATABASE_URL || config.url,
+
       Sequelize = require('sequelize');
 
-console.log('new routes', '(', conStr, ')');
+console.log('new r Pool-host', '(', process.env.POSTGRESQL_LOCAL_HOST, ')', 'env', env);
+let pool;
+if (env === 'production') {
+  pool = new Pool({
+    connectionString: conStr,
+    ssl: true
+  });
+} else {
+  pool = new Pool({
+    connectionString: conStr,
+    ssl: false
+  });
+}
+
+pool.connect();
+
+// app.get('/src/db/models/coin.js');
+
+// pool.post()
 
 // router.route('/add').post((req, res, next) => {});
-console.log('inNewRouter', config);
+console.log('inNewRouter', conStr);
 
 // this will do all crud functions
 let sequelize;

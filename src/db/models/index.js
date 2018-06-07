@@ -14,13 +14,21 @@ const db        = {};
 console.log('checking', '(', process.env[config.use_env_variable],')');
 
 let sequelize;
-if (process.env.DATABASE_URL) {
-  sequelize = new Sequelize(process.env[config.use_env_variable]);
+if ('production' === env) {
+  sequelize = new Sequelize(connectString, {
+    dialect: 'postgres',
+      ssl: true,
+      operatorsAliases: false,
+      dialectOptions: {
+        ssl: true
+      },
+    }
+  );
 } else {
   sequelize = new Sequelize(connectString, {
     dialect: 'postgres',
       ssl: false,
-      operatorsAliases: 'false',
+      operatorsAliases: false,
       dialectOptions: {
         ssl: false
       },
