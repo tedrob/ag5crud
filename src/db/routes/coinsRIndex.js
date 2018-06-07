@@ -43,7 +43,24 @@ if (env === 'production') {
     },
   });
 }
+/////////////////////////////////////////
+const Coin = require('./../models/coin');
+console.log('Coin', Coin);
+module.exports = (app) => {
+  app.get('/coin', (req, res) => {
+    getCoins(res);
+  });
 
+  app.post('/add', () => {
+    Coin.create({
+      name: req.body.name,
+      price: req.body.price
+    }, (err) => {
+      if (err) res.send(err);
+    });
+  })
+}
+/////////////////////////////////////////
 const Posts = sequelize.define('Coin', {
   'name': {
     type: Sequelize.STRING
