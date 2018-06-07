@@ -11,14 +11,12 @@ const express = require('express'), //
       env = app.get('env'),
       config = require(`${__dirname}/config/config.json`)[env],
       connectString = process.env.DATABASE_URL || config.url,
-      db = require(`${__dirname}/src/db/models/`),
-      Sequelize = require('sequelize');
-      // db = require('./model/coin'),
-//
-let sequelize;
-// let http = require('https');
+      db = require(`${__dirname}/src/db/models/`);
+      // Sequelize = require('sequelize'); //
 
+console.log('db check', db);
 
+/* let sequelize; //
 if (env === 'production') {
   sequelize = new Sequelize(connectString, {
     dialect: 'postgres',
@@ -38,7 +36,7 @@ if (env === 'production') {
     },
   });
 }
-
+ */
 
 
 // Sets up the Express app to handle data parsing
@@ -66,7 +64,7 @@ let Port = process.env.PORT || 8080;
 // Setup a default catch-all route
 if ('production' === env) {
   console.log('server server-production=',env);
-  console.log('port-P', Port);
+  console.log('port-P', Port, 'process.env', process.env);
   console.log('process ','(',process.env.HEROKU_POSTGRSQL_POINTY_73069,')');
   app.use(express.static(path.join(__dirname, './dist')));
   app.get('/*', (req, res, next) => {
@@ -85,15 +83,11 @@ else {
 };
 
 // create coins and send back all coins after creation;
-sequelize.sync().then(() => {
-  //https.createServer(app.options('*', cors()), app.listen(Port), () => {
+// sequelize.sync().then(() => {  //
   http.createServer(app).listen(Port, cors(), () => {
     console.log('server2', Port);
   });
-/*   app.listen(process.env.PORT || 8080, () => {
-    console.log('server', app.get('env'));
-  }); */
-});//
+// });
 
 // Start the app by listening on the default Heroku port
 // app.listen(process.env.PORT || 8080);
