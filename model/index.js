@@ -68,7 +68,7 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-db.coin = require('./coin')(sequelize, Sequelize);
+db.coin = require('\../src/db/models/coin')(sequelize, Sequelize);
 
 module.exports = db;
 

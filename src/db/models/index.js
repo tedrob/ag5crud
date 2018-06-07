@@ -53,7 +53,8 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
-console.log('fs- after', config);
+console.log('fs- after', config.url);
+console.log('fs- afterP', config.use_env_variable);
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
