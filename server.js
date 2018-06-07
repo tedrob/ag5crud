@@ -64,8 +64,8 @@ let Port = process.env.PORT || 8080;
 // Setup a default catch-all route
 if ('production' === env) {
   console.log('server server-production=',env);
-  console.log('port-P', Port, 'process.env', process.env);
-  console.log('process ','(',process.env.HEROKU_POSTGRSQL_POINTY_73069,')');
+  // console.log('port-P', Port, 'process.env', process.env.DATABASE_URL);
+  console.log('process DB ', '(', process.env.DATABASE_URL, ')');
   app.use(express.static(path.join(__dirname, './dist')));
   app.get('/*', (req, res, next) => {
     res.sendFile(path.join(__dirname, './dist/index.html'));
