@@ -16,7 +16,7 @@ console.log('checking', '(', process.env[config.use_env_variable],')');
 let sequelize;
 if ('production' === env) {
   sequelize = new Sequelize(connectString, {
-    host: process.env.POSTGRESQL_LOCAL_HOST,
+    host: 'localhost',
     dialect: 'postgres',
       ssl: true,
       operatorsAliases: false,
@@ -57,7 +57,7 @@ Object.keys(db).forEach(modelName => {
 
 console.log('fs- after', config.url);
 console.log('fs- afterP', connectString);
-console.log('fs- host',  '{', process.env.POSTGRESQL_LOCAL_HOST, '}','local','[', `${'localhost'}`,']');
+console.log('fs- host',  '{', sequelize, '}','local','[', `${'localhost'}`,']');
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
