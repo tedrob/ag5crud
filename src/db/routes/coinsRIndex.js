@@ -96,12 +96,12 @@ cRoutes.post('/', (req, res) => {
   })
 });
   // create coin
-  cRoutes.route('/add').post((req, res, next) => {
-    /* const data = {
+  /* cRoutes.route('/add').post((req, res, next) => {
+    const data = {
       name: req.body.name,
       price: req.body.price,
       complete: false
-    }; */
+    };
     Posts.create({
       name: req.body.name,
       price: req.body.price
@@ -118,6 +118,6 @@ cRoutes.post('/', (req, res) => {
       }
     })
     next;
-  });
+  }); */
 
 module.exports = cRoutes; //
