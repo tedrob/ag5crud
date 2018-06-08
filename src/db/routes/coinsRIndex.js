@@ -44,7 +44,7 @@ if (env === 'production') {
   });
 }
 /////////////////////////////////////////
-const Coin = require('./../models/coin');
+/* const Coin = require('./../models/coin');
 console.log('Coin', Coin);
 module.exports = (app) => {
   app.get('/coin', (req, res) => {
@@ -59,7 +59,7 @@ module.exports = (app) => {
       if (err) res.send(err);
     });
   })
-}
+} */
 /////////////////////////////////////////
 const Posts = sequelize.define('Coin', {
   'name': {
@@ -71,6 +71,30 @@ const Posts = sequelize.define('Coin', {
 });
 
 // Defined store route
+cRoutes.post('/', (req, res) => {
+  const data = [{
+      name: req.body.name,
+      price: req.body.price,
+      complete: false
+  }];
+  Posts.create({
+    name: req.body.name,
+    price: req.body.price
+  }, (err, result) =>{
+    if (err) {
+      console.error(err);
+      res.statusCode = 500;
+      return res.json({
+        errors: ['failed to create coin']
+      });
+    }
+    const coinId = result.rows[0].id;
+    console.log('coinID', coinId);
+    res.statusCode(201).json({
+      coin: 'Coin add successfully'
+    });
+  })
+});
   // create coin
   cRoutes.route('/add').post((req, res, next) => {
     /* const data = {
@@ -83,7 +107,7 @@ const Posts = sequelize.define('Coin', {
       price: req.body.price
     })
     .then(() => {
-        res.status(200).json({
+        res.status(201).json({
           coin: 'Coin add successfully'
         });
     })

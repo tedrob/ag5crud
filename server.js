@@ -21,13 +21,13 @@ const express = require('express'), //
 app.use((req, res, next) => {
   app.use(cors());
   app.options('*', cors());
-  app.use(bodyParser.json());
-  /* app.use(bodyParser.urlencoded({
+  app.use(bodyParser.urlencoded({
     extended: true
   }));
-  app.use(bodyParser.text()); */
+  app.use(bodyParser.json({ type: 'application/json'}));
+  // app.use(bodyParser.text());
   // app.use('/coins', coinRoutes); //
-  app.use('/', cRoutes);
+  app.use('/coins', cRoutes);
   // app.use(allowCrossDomain);
   // app.use(express.methodOverride());
   res.setHeader('Access-Control-Allow-Origin', '*');
