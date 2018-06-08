@@ -71,7 +71,7 @@ const Posts = sequelize.define('Coin', {
 });
 
 // Defined store route
-cRoutes.post('/', (req, res) => {
+/* cRoutes.post('/add', (req, res, next) => {
   const data = [{
       name: req.body.name,
       price: req.body.price,
@@ -94,9 +94,10 @@ cRoutes.post('/', (req, res) => {
       coin: 'Coin add successfully'
     });
   })
-});
+  next;
+}); */
   // create coin
-  /* cRoutes.route('/add').post((req, res, next) => {
+    cRoutes.route('/add').post((req, res, next) => {
     const data = {
       name: req.body.name,
       price: req.body.price,
@@ -118,6 +119,6 @@ cRoutes.post('/', (req, res) => {
       }
     })
     next;
-  }); */
+  });
 
 module.exports = cRoutes; //

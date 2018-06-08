@@ -12,7 +12,7 @@ const express = require('express'), //
       env = app.get('env'),
       config = require(`${__dirname}/config/config.json`)[env],
       connectString = process.env.DATABASE_URL || config.url,
-      Port = process.env.PORT || 8888,
+      Port = process.env.PORT || 8080,
       db = require(`\./src/db/models`);
 // Sets up the Express app to handle data parsing
 
@@ -25,7 +25,7 @@ app.use((req, res, next) => {
     extended: true
   }));
   app.use(bodyParser.json({ type: 'application/json'}));
-  // app.use(bodyParser.text());
+  app.use(bodyParser.text());
   // app.use('/coins', coinRoutes); //
   app.use('/coins', cRoutes);
   // app.use(allowCrossDomain);
