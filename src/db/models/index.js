@@ -14,7 +14,8 @@ db.env = env;
 console.log('checking', '(', process.env[config.use_env_variable],')');
 
 let sequelize;
-if ('production' === env) {
+//if ('production' === env) {
+if (config.use_env_variable) {
   sequelize = new Sequelize(connectString, {
     host: 'localhost',
     dialect: 'postgres',

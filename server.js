@@ -9,10 +9,12 @@ const express       = require('express'), //
       bodyParser    = require('body-parser'),
       // coinRoutes = require('./expressRoutes/coinRoutes'),
       cRoutes       = require('./src/db/routes/coinsRIndex'),
+      api           = require('\./src/db/routes/index'),
+
       // env = app.get('env'),
       Port          = process.env.PORT || 8080,
-      db            = require(`\./src/db/models`),
-      config        = require(`${__dirname}/config/config.json`)[db.env];
+      db            = require(`\./src/db/models`);
+      // config        = require(`${__dirname}/config/config.json`)[db.env];
       // connectString = process.env.DATABASE_URL || config.url || config.use_env_variable;
 
 // Sets up the Express app to handle data parsing
@@ -25,17 +27,28 @@ app.use((req, res, next) => {
   app.use(bodyParser.urlencoded({
     extended: true
   }));
-  app.use(bodyParser.json({ type: 'application/json'}));
-  app.use(bodyParser.text());
+    app.use(bodyParser.json({
+      type: 'application/json'
+    }));
+  // app.use(bodyParser.text());
   // app.use('/coins', coinRoutes); //
-  app.use('/coins', cRoutes);
-  // app.use(allowCrossDomain);
+  // app.use('/coins', cRoutes);
+  // app.use('\./src/db/routes/');
+  app.use('/coins', api);
+
   // app.use(express.methodOverride());
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control_allow-Origin', 'GET, POST, OPTION, PUT, DELETE');
   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+  app.get('*', (req, res) => res.status(200).send({
+    message: 'Welcome to the beginning of nothingness.',
+  }));
   next();
 });
+
+
+
 
 // let Port = process.env.PORT || 8080;
 
