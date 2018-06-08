@@ -11,10 +11,9 @@ const express   = require('express'),
       models    = require('\../models'),
       Sequelize = require('sequelize');
 
-console.log('config', conStr);
-
-console.log('new r Pool-host', '(', process.env.POSTGRESQL_LOCAL_HOST, ')', 'env', env); //
-
+console.log('config', conStr, 'dbEnv', db.env);
+db.env = env;
+console.log('new r Pool-host', '(', process.env.POSTGRESQL_LOCAL_HOST, ')', 'env', env, 'dbEnv', db.env); //
 // app.get('/src/db/models/coin.js');
 
 // pool.post()
@@ -23,9 +22,11 @@ console.log('new r Pool-host', '(', process.env.POSTGRESQL_LOCAL_HOST, ')', 'env
 console.log('inNewRouter', conStr);
 
 // this will do all crud functions
+console.log('db env', db.env);
 let sequelize;
 if (env === 'production') {
   sequelize = new Sequelize(conStr, {
+    host: 'localhost',
     dialect: 'postgres',
     ssl: true,
     dialectOptions: {
@@ -35,6 +36,7 @@ if (env === 'production') {
   });
 } else {
   sequelize = new Sequelize(conStr, {
+     host: 'localhost',
     dialect: 'postgres',
     ssl: false,
     operatorsAliases: 'false',
@@ -43,6 +45,16 @@ if (env === 'production') {
     },
   });
 }
+
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('connection has been exablish successfully.');
+  })
+  .catch((err) => {
+    console.log('Unable to connection to database:', err);
+  });
+
 /////////////////////////////////////////
 /* const Coin = require('./../models/coin');
 console.log('Coin', Coin);
@@ -62,10 +74,10 @@ module.exports = (app) => {
 } */
 /////////////////////////////////////////
 const Posts = sequelize.define('Coin', {
-  'name': {
+  name: {
     type: Sequelize.STRING
   },
-  'price': {
+  price: {
     type: Sequelize.DECIMAL
   },
 });

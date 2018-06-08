@@ -10,7 +10,7 @@ const fs            = require('fs'),
       Datatypes = require('sequelize/lib/data-types'),  // needed so not have to add to all models
       connectString = process.env.DATABASE_URL || config.url,
       db        = {};
-
+db.env = env;
 console.log('checking', '(', process.env[config.use_env_variable],')');
 
 let sequelize;
