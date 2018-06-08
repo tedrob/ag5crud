@@ -27,7 +27,7 @@ app.use((req, res, next) => {
   }));
   app.use(bodyParser.text()); */
   // app.use('/coins', coinRoutes); //
-  app.use('/coins', cRoutes);
+  app.use('/', cRoutes);
   // app.use(allowCrossDomain);
   // app.use(express.methodOverride());
   res.setHeader('Access-Control-Allow-Origin', '*');
