@@ -3,31 +3,35 @@
 const fs            = require('fs'),
       path          = require('path'),
       Sequelize     = require('sequelize'),
-      // basename   = path.basename(__filename);
-      basename      = path.basename(module.filename), //added this back
+      basename      = path.basename(module.filename),
       env           = process.env.NODE_ENV || 'development',
       config        = require('\../config.json')[env],
-      Datatypes = require('sequelize/lib/data-types'),  // needed so not have to add to all models
+      DataTypes = require('sequelize/lib/data-types'),  // needed so not have to add to all models
       connectString = process.env.DATABASE_URL || config.url,
-      db        = {};
-db.env = env;
-console.log('checking', '(', process.env[config.use_env_variable],')');
+      db            = {};
 
+if (env !== 'production') {
+  require('dotenv').load();
+}
+
+console.log('models-index env', env);
 let sequelize;
-//if ('production' === env) {
-if (config.use_env_variable) {
-  sequelize = new Sequelize(connectString, {
+if ('production' === env) {
+//if (config.use_env_variable) {${process.env.DATABASE_URL}`
+  console.log(`P-db-models-index env=${env}`);
+  sequelize = new Sequelize(`${process.env.DATABASE_URL}`, {
     host: 'localhost',
     dialect: 'postgres',
-      ssl: true,
-      operatorsAliases: false,
-      dialectOptions: {
-        ssl: true
-      },
+    ssl: true, //
+    dialectOptions: {
+      ssl: true
+    },
+    operatorsAliases: false,
     }
   );
 } else {
-  sequelize = new Sequelize(connectString, {
+  console.log(`D-db-models-index env=${env}`);
+  sequelize = new Sequelize(`${process.env.DATABASE_URL_DEV}`, { //connectString, {
     host: 'localhost',
     dialect: 'postgres',
       ssl: false,
@@ -46,32 +50,46 @@ fs
   })
   .forEach(file => {
     const model = sequelize['import'](path.join(__dirname, file));
+    //console.log('model', model.name);
     db[model.name] = model;
-    // console.log('model', model.name);
+
   });
 
-Object.keys(db).forEach(modelName => {
+Object.keys(db).forEach((modelName) => {
+  console.log('models-index-modelN=', modelName);
   if (db[modelName].associate) {
     db[modelName].associate(db);
   }
 });
 
+console.log('models-index-checking', '(',env, ')\n',
+  `URL = ${process.env.DATABASE_URL_DEV}`,
+  /* 'config', config,
+  '\nprocess-Port', db.port,
+  `\nconnectionStr ${connectString}`,
+  `\nconfig = ${process.env.DATABASE_URL_DEV}`,
+  `\nvalue = ${process.env.FOO}`,
+  `\nNODE_ENV = ${process.env.NODE_ENV}` */
+);
+
 sequelize
   .authenticate()
   .then (() => {
-    console.log('connection has been exablish successfully.');
+    console.log('connection has been exablish successfully-Models.');
   })
   .catch((err) => {
-    console.log('Unable to connection to database:', err);
+    console.log('Unable to connection-Models to database:', err);
   });
 
-console.log('fs- after', config.url);
-console.log('fs- afterP', connectString);
-console.log('fs- host',  '{', process.env.host, '}','local','[', `${'localhost'}`,']');
+// console.log('fs- after', config.url);
+// console.log('fs- afterP', connectString);
+const Host = process.env.host || 'localhost';
+console.log('fs- host',  '{', Host, '}','local','[', `${'localhost'}`,']');
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-db.user = require('\./coin')(sequelize, Sequelize);
+// db.user = require('\./coin')(sequelize, Sequelize);
+// db.coin = require('\./coin')(sequelize, sequelize); // (db/models)
 
 module.exports = db;

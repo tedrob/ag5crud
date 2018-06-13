@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CoinService } from './../coin.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-create',
@@ -9,7 +9,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class CreateComponent implements OnInit {
   title = 'Add Coin';
-  angForm: FormGroup;
+  angForm = new FormGroup ({
+    name: new FormControl()
+  });
 
   constructor(private coinservice: CoinService, private fb: FormBuilder) {
     this.createForm();

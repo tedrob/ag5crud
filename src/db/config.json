@@ -2,6 +2,10 @@
   "development": {
     "url": "postgres://postgres:P2ssw0rd@localhost:5432/ag5ted",
     "dialect": "postgres",
+    "ssl": false,
+    "dialectOptions": {
+      "ssl": false
+    },
     "operatorsAliases": false
   },
   "test": {
@@ -16,6 +20,9 @@
     "use_env_variable": "DATABASE_URL",
     "dialect": "postgres",
     "ssl": true,
+    "dialectOptions": {
+      "ssl": true
+    },
     "operatorsAliases": false
   }
 }

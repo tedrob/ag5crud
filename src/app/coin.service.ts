@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-
+import { Observable, throwError } from 'rxjs';
+import {map, catchError} from 'rxjs/operators';
 @Injectable()
 export class CoinService {
 
@@ -27,9 +26,11 @@ export class CoinService {
     return this
       .http
       .get(uri)
-      .map(res => {
+      .pipe(map(res => {
         return res;
-      });
+      }), catchError(error => {
+        return throwError('Something went wrong!');
+      }));
   }
 
   updateCoin(name: any, price: any, id: any) {
@@ -50,8 +51,8 @@ export class CoinService {
     return this
       .http
       .get(uri)
-      .map(res => {
+      .pipe(map(res => {
         return res;
-      });
+      }));
   }
 }

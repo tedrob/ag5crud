@@ -2,31 +2,21 @@
 // import db from './../models/index';
 
 const express   = require('express'),
-      cRoutes   = express.Router(), //
+      cRoutes   = express.Router(),
       path      = require('path'),
       env       = process.env.NODE_ENV || 'development',
       config    = require(`\../../db/config.json`)[env],
       conStr    = process.env.DATABASE_URL || config.url,
       db        = {},
       models    = require('\../models'),
-      Sequelize = require('sequelize');
-
-console.log('config', conStr, 'dbEnv', db.env);
-db.env = env;
-console.log('new r Pool-host', '(', process.env.POSTGRESQL_LOCAL_HOST, ')', 'env', env, 'dbEnv', db.env); //
-// app.get('/src/db/models/coin.js');
-
-// pool.post()
-
-// router.route('/add').post((req, res, next) => {});
-console.log('inNewRouter', conStr);
-
+      Sequelize = require('sequelize'); //
 // this will do all crud functions
-console.log('db env', db.env);
+// console.log('env', env, 'cStr', conStr);
 let sequelize;
 if (env === 'production') {
-  sequelize = new Sequelize(conStr, {
-    host: 'localhost',
+  console.log('new r P', `env ${env}`, `( ${process.env.DATABASE_URL} )`);
+  sequelize = new Sequelize(`${process.env.DATABASE_URL}`, {
+    // host: 'localhost',
     dialect: 'postgres',
     ssl: true,
     dialectOptions: {
@@ -35,24 +25,25 @@ if (env === 'production') {
     operatorsAliases: false,
   });
 } else {
-  sequelize = new Sequelize(conStr, {
-     host: 'localhost',
+  console.log('new r D', `env ${env}`, '(', `${process.env.DATABASE_URL_DEV}`, ')');
+  sequelize = new Sequelize(`${process.env.DATABASE_URL_DEV}`, {
+    // host: 'localhost',
     dialect: 'postgres',
-    ssl: false,
-    operatorsAliases: 'false',
+    ssl: false, //
     dialectOptions: {
       ssl: false
     },
+    operatorsAliases: false,
   });
 }
 
 sequelize
   .authenticate()
   .then(() => {
-    console.log('connection has been exablish successfully.');
+    console.log('connection cRI has been exablish successfully.');
   })
   .catch((err) => {
-    console.log('Unable to connection to database:', err);
+    console.log('Unable to connection cRI to database:', err);
   });
 
 /////////////////////////////////////////

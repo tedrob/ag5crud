@@ -32,10 +32,11 @@ if (env === 'production') {
   sequelize = new Sequelize(connectString, {
     dialect: 'postgres',
     ssl: false,
-    operatorsAliases: 'false',
+
     dialectOptions: {
       ssl: false
     },
+    operatorsAliases: false,
   });
 }
 
